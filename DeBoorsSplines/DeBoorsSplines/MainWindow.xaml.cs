@@ -23,6 +23,25 @@ namespace DeBoorsSplines
         public MainWindow()
         {
             InitializeComponent();
+
+            DeBoorsSplinesAppWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 2;
+            DeBoorsSplinesAppWindow.MinWidth = SystemParameters.PrimaryScreenWidth / 2;
+            DeBoorsSplinesAppWindow.MaxHeight = SystemParameters.PrimaryScreenHeight;
+            DeBoorsSplinesAppWindow.MaxWidth = SystemParameters.PrimaryScreenWidth;
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            MainGrid.Height = ButtonsGrid.Height = DrawingCanvas.Height = DeBoorsSplinesAppWindow.Height;
+            MainGrid.Width = DeBoorsSplinesAppWindow.Width;
+
+            int canvasWidth = (int)(DeBoorsSplinesAppWindow.Width / 100 * 80);
+
+            // Канвас во весь экран по высоте и на 80% по ширине
+            DrawingCanvas.Margin = new Thickness(0, 0, MainGrid.Width-canvasWidth, 0);
+
+            ButtonsGrid.Width = MainGrid.Width - DrawingCanvas.Width;
+            ButtonsGrid.Margin = new Thickness(canvasWidth+5, 0, 0, 0);
         }
     }
 }

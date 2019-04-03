@@ -1,12 +1,17 @@
-﻿<Window x:Class="DeBoorsSplines.MainWindow"
+﻿<Window x:Name="DeBoorsSplinesAppWindow" x:Class="DeBoorsSplines.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DeBoorsSplines"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="De Boor's Splines" Height="450" Width="800" AutomationProperties.Name="De Boor's Splines" SizeChanged="Window_SizeChanged">
+    <Grid x:Name="MainGrid" Margin="10,10,10,10" HorizontalAlignment="Left" Width="780">
+        <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0" VerticalAlignment="Top" Background="#FFFFDDDD"/>
+        <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left" Height="410" Margin="395,0,0,0" VerticalAlignment="Top" Width="375">
+            <Button x:Name="AddPointButton" Content="Добавить точку" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
+
+        </Grid>
+
     </Grid>
 </Window>

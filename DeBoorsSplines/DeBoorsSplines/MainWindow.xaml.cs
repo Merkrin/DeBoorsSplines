@@ -24,22 +24,36 @@ namespace DeBoorsSplines
         {
             InitializeComponent();
 
-            DeBoorsSplinesAppWindow.MinHeight = SystemParameters.PrimaryScreenHeight / 2;
-            DeBoorsSplinesAppWindow.MinWidth = SystemParameters.PrimaryScreenWidth / 2;
+            DeBoorsSplinesAppWindow.MinHeight = 
+                SystemParameters.PrimaryScreenHeight / 3 * 2;
+            DeBoorsSplinesAppWindow.MinWidth = 
+                SystemParameters.PrimaryScreenWidth / 3 * 2;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            MainGrid.Height = ButtonsGrid.Height = DrawingCanvas.Height = DeBoorsSplinesAppWindow.ActualHeight;
+            MainGrid.Height = ButtonsGrid.Height = DrawingCanvas.Height 
+                = DeBoorsSplinesAppWindow.ActualHeight;
+
             MainGrid.Width = DeBoorsSplinesAppWindow.ActualWidth;
 
-            int canvasWidth = (int)(DeBoorsSplinesAppWindow.ActualWidth / 100 * 70);
+            int canvasWidth = 
+                (int)(DeBoorsSplinesAppWindow.ActualWidth / 100 * 70);
 
             // Канвас во весь экран по высоте и на 70% по ширине
-            DrawingCanvas.Margin = new Thickness(0, 0, MainGrid.Width-canvasWidth, 0);
+            DrawingCanvas.Margin = 
+                new Thickness(0, 0, MainGrid.Width-canvasWidth, 0);
 
             ButtonsGrid.Width = MainGrid.Width - canvasWidth;
             ButtonsGrid.Margin = new Thickness(canvasWidth+5, 0, 0, 0);
+        }
+
+        private void AddPointButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(AddPointTextBox.Text))
+            {
+
+            }
         }
     }
 }

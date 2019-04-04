@@ -4,13 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="De Boor's Splines" Height="450" Width="800" AutomationProperties.Name="De Boor's Splines" SizeChanged="Window_SizeChanged">
-    <Grid x:Name="MainGrid" Margin="10,10,10,10" HorizontalAlignment="Left" Width="780">
-        <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0" VerticalAlignment="Top" Background="#FFFFDDDD"/>
-        <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left" Height="410" Margin="395,0,0,0" VerticalAlignment="Top" Width="375">
-            <Button x:Name="AddPointButton" Content="Добавить точку" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
-
+        Title="De Boor's Splines" Height="450" Width="800"
+        AutomationProperties.Name="De Boor's Splines"
+        SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+    <Grid x:Name="MainGrid" Margin="10,10,10,10" HorizontalAlignment="Left"
+          Width="780">
+        <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0"
+                VerticalAlignment="Top" Background="#FFF0F0F0"/>
+        <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left" Height="410"
+              Margin="395,0,0,0" VerticalAlignment="Top" Width="375">
+            <Label x:Name="PointLabel"
+                   Content="Введите координаты новой точки как &quot;х,у&quot;:"
+                   HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox x:Name="AddPointTextBox" HorizontalAlignment="Left"
+                     Height="23" Margin="0,26,0,0" TextWrapping="Wrap"
+                     Text="x,y" VerticalAlignment="Top" Width="120"/>
+            <Button x:Name="AddPointButton" Content="Добавить точку"
+                    HorizontalAlignment="Left" Margin="125,26,0,0"
+                    VerticalAlignment="Top" Width="100" Click="AddPointButton_Click"/>
         </Grid>
-
     </Grid>
 </Window>

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PointsLibrary
 {
@@ -15,20 +12,39 @@ namespace PointsLibrary
         {
             List<Point> points = new List<Point>();
 
-            using(StreamReader streamReader = new StreamReader(filePath))
+            using (StreamReader streamReader = new StreamReader(filePath))
             {
                 string line = streamReader.ReadLine();
 
                 if (line == null)
-                    throw new FileException("Файл пуст!");
-                if (line != "N:")
-                    throw new FileException("Файл должен начинаться якорем \"N:\"!");
-
-                while((line = streamReader.ReadLine()) != null)
                 {
-                    if (CheckLine(line) & CheckCoordinates(line.Split(';')[0], line.Split(';')[1]))
-                        // TODO;
-                        ;
+                    throw new FileException("Файл пуст!");
+                }
+
+                if (line != "N:")
+                {
+                    throw new FileException("Файл должен начинаться якорем \"N:\"!");
+                }
+
+                while ((line = streamReader.ReadLine()) != null)
+                {
+                    if (CheckLine(line))
+                    {
+                        string xCoordinate = line.Split(' ')[0],
+                            yCoordinate = line.Split(' ')[1];
+                        if (CheckCoordinates(xCoordinate, yCoordinate))
+                        {
+                            points.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
+                        }
+                        else
+                        {
+                            throw new FileException("Координаты некорректны!");
+                        }
+                    }
+                    else
+                    {
+                        throw new FileException("Строка координат некорректна!");
+                    }
                 }
             }
 
@@ -37,7 +53,7 @@ namespace PointsLibrary
 
         private bool CheckLine(string line)
         {
-            return line.All(c => allowedCharacters.Contains(c)) && 
+            return line.All(c => allowedCharacters.Contains(c)) &&
                 line.Split(' ').Length == 2;
         }
 

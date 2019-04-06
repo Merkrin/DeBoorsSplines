@@ -1,0 +1,17 @@
+Code:
+https://www.codeproject.com/Articles/16689/Bspline-in-C
+https://chi3x10.wordpress.com/2009/10/18/de-boor-algorithm-in-c/
+
+Understanding:
+https://www.codeproject.com/Articles/1095142/Generate-and-understand-NURBS-curves
+http://demonstrations.wolfram.com/GeneratingABSplineCurveByTheCoxDeBoorAlgorithm/
+http://www.inf.ed.ac.uk/teaching/courses/cg/d3/deBoor.html
+https://en.wikipedia.org/wiki/De_Boor%27s_algorithm
+https://pages.mtu.edu/~shene/COURSES/cs3621/NOTES/spline/de-Boor.html
+https://www.fim.uni-passau.de/fileadmin/files/lehrstuhl/sauer/geyer/SplinesNeu.pdf
+https://gamedev.ru/code/articles/bsplines
+https://saccade.com/writing/graphics/KnotVectors.pdf
+http://web.mit.edu/hyperbook/Patrikalakis-Maekawa-Cho/node18.html
+https://de.wikipedia.org/wiki/Spline
+https://en.wikipedia.org/wiki/De_Boor%27s_algorithm
+https://en.wikipedia.org/wiki/B-spline

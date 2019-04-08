@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace PointsLibrary
 {
@@ -21,29 +23,47 @@ namespace PointsLibrary
                     throw new FileException("Файл пуст!");
                 }
 
-                if (line != "N:")
+                if (!Regex.IsMatch(line, "^\\d+:$"))
                 {
                     throw new FileException("Файл должен начинаться якорем \"N:\"!");
                 }
 
-                while ((line = streamReader.ReadLine()) != null)
+                int coordinatesAmount = int.Parse(line.Substring(0, line.IndexOf(':')));
+
+                if (coordinatesAmount < 4)
+                    throw new FileException("Для построения кубического сплайна" +
+                        " требуется не менее 4 пар координат!");
+
+                for (int i = 0; i < coordinatesAmount; i++)
                 {
-                    if (CheckLine(line))
+                    line = streamReader.ReadLine();
+
+                    if(line != null)
                     {
-                        string xCoordinate = line.Split(' ')[0],
-                            yCoordinate = line.Split(' ')[1];
-                        if (CheckCoordinates(xCoordinate, yCoordinate))
+                        if (CheckLine(line))
                         {
-                            points.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
+                            string xCoordinate = line.Split(' ')[0],
+                                yCoordinate = line.Split(' ')[1];
+
+                            if(CheckCoordinates(xCoordinate, yCoordinate))
+                            {
+                                try
+                                {
+                                    points.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
+                                }catch(OutOfMemoryException)
+                                {
+                                    throw new FileException("Too many coordinates!");
+                                }
+                            }
+                            else
+                            {
+                                throw new FileException(i + 1 + "-ая пара координат некорректна!");
+                            }
                         }
                         else
                         {
-                            throw new FileException("Координаты некорректны!");
+                            throw new FileException(i+2+"-ая строка некорректна!");
                         }
-                    }
-                    else
-                    {
-                        throw new FileException("Строка координат некорректна!");
                     }
                 }
             }

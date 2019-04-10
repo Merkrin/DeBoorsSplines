@@ -12,7 +12,7 @@
           Width="780">
         <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0">
             <MenuItem Header="File" >
-                <MenuItem Header="Open"/>
+                <MenuItem x:Name="OpenMenuItem" Header="Open" Click="OpenMenuItem_Click"/>
                 <MenuItem Header="Сохранить как..."/>
                 <MenuItem Header="Сохранить"/>
             </MenuItem>
@@ -20,8 +20,8 @@
         <Grid x:Name="SecondaryGrid" HorizontalAlignment="Left" Margin="0,25,0,0">
             <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0"
                 VerticalAlignment="Top" Background="White"/>
-            <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left" Height="410"
-              Margin="395,0,0,0" VerticalAlignment="Top" Width="375">
+            <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left"
+              Margin="395,0,0,0" VerticalAlignment="Top" Width="375" Height="375">
                 <Label x:Name="PointLabel"
                    Content="Введите координаты новой точки как &quot;х,у&quot;:"
                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -31,6 +31,9 @@
                 <Button x:Name="AddPointButton" Content="Добавить точку"
                     HorizontalAlignment="Left" Margin="125,26,0,0"
                     VerticalAlignment="Top" Width="100" Click="AddPointButton_Click"/>
+                <ListBox x:Name="PointsListBox" HorizontalAlignment="Left"
+                         Height="160" Margin="10,205,0,0"
+                         VerticalAlignment="Top" Width="215"/>
             </Grid>
         </Grid>
     </Grid>

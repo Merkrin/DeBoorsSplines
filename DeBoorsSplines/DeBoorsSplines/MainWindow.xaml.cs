@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using PointsLibrary;
 
 namespace DeBoorsSplines
 {
@@ -20,6 +21,10 @@ namespace DeBoorsSplines
     /// </summary>
     public partial class MainWindow : Window
     {
+        private FileParser fileParser = new FileParser();
+        private List<PointsLibrary.Point> pointsList;
+        private OpenSaveDialogs openSaveDialogs = new OpenSaveDialogs();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -54,6 +59,11 @@ namespace DeBoorsSplines
             {
 
             }
+        }
+
+        private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            pointsList = openSaveDialogs.OpenFile(fileParser);
         }
     }
 }

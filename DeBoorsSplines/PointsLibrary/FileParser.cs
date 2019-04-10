@@ -8,6 +8,8 @@ namespace PointsLibrary
 {
     public class FileParser
     {
+        public double Parameter { private set; get; }
+
         private const string allowedCharacters = "1234567890 ";
 
         public List<Point> ReadFile(string filePath)
@@ -23,7 +25,7 @@ namespace PointsLibrary
                     throw new FileException("Файл пуст!");
                 }
 
-                if (!Regex.IsMatch(line, "^\\d+:$"))
+                if (!Regex.IsMatch(line, "^[0-9]+:$"))
                 {
                     throw new FileException("Файл должен начинаться якорем \"N:\"!");
                 }
@@ -31,26 +33,29 @@ namespace PointsLibrary
                 int coordinatesAmount = int.Parse(line.Substring(0, line.IndexOf(':')));
 
                 if (coordinatesAmount < 4)
+                {
                     throw new FileException("Для построения кубического сплайна" +
                         " требуется не менее 4 пар координат!");
+                }
 
                 for (int i = 0; i < coordinatesAmount; i++)
                 {
                     line = streamReader.ReadLine();
 
-                    if(line != null)
+                    if (line != null)
                     {
                         if (CheckLine(line))
                         {
                             string xCoordinate = line.Split(' ')[0],
                                 yCoordinate = line.Split(' ')[1];
 
-                            if(CheckCoordinates(xCoordinate, yCoordinate))
+                            if (CheckCoordinates(xCoordinate, yCoordinate))
                             {
                                 try
                                 {
                                     points.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
-                                }catch(OutOfMemoryException)
+                                }
+                                catch (OutOfMemoryException)
                                 {
                                     throw new FileException("Too many coordinates!");
                                 }
@@ -62,9 +67,27 @@ namespace PointsLibrary
                         }
                         else
                         {
-                            throw new FileException(i+2+"-ая строка некорректна!");
+                            throw new FileException(i + 2 + "-ая строка некорректна!");
                         }
                     }
+                }
+
+                line = streamReader.ReadLine();
+
+                if (line != "T:")
+                {
+                    throw new FileException("Требуется якорь \"T:\"!");
+                }
+
+                line = streamReader.ReadLine();
+
+                if (double.TryParse(line, out double t))
+                {
+                    Parameter = t;
+                }
+                else
+                {
+                    throw new FileException("Значение параметра некорректно!");
                 }
             }
 

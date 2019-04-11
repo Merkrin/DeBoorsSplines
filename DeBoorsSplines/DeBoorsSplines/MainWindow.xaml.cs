@@ -22,7 +22,6 @@ namespace DeBoorsSplines
     public partial class MainWindow : Window
     {
         private FileParser fileParser = new FileParser();
-        private List<PointsLibrary.Point> pointsList;
         private OpenSaveDialogs openSaveDialogs = new OpenSaveDialogs();
 
         public MainWindow()
@@ -42,10 +41,9 @@ namespace DeBoorsSplines
 
             MainGrid.Width = DeBoorsSplinesAppWindow.ActualWidth;
 
+            // Канвас во весь экран по высоте и на 70% по ширине
             int canvasWidth = 
                 (int)(DeBoorsSplinesAppWindow.ActualWidth / 100 * 70);
-
-            // Канвас во весь экран по высоте и на 70% по ширине
             DrawingCanvas.Margin = 
                 new Thickness(0, 0, MainGrid.Width-canvasWidth, 0);
 
@@ -63,7 +61,7 @@ namespace DeBoorsSplines
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            pointsList = openSaveDialogs.OpenFile(fileParser);
+            openSaveDialogs.OpenFile(this, fileParser);
         }
     }
 }

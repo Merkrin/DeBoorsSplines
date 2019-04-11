@@ -1,25 +1,26 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PointsLibrary;
 
 namespace DeBoorsSplines
 {
     class OpenSaveDialogs
     {
-        public List<Point> OpenFile(FileParser fileParser)
+        private static PointsListDialogs pointsListDialogs = new PointsListDialogs();
+
+        public void OpenFile(MainWindow mainWindow, FileParser fileParser)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Text files (*.txt)|*.txt|DeBoorsSplines" +
+                " Files (*.dbsp)|*.dbsp|All files (*.*)|*.*"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
-                return fileParser.ReadFile(openFileDialog.FileName);
-            }
+                fileParser.ReadFile(openFileDialog.FileName);
 
-            return null;
+                pointsListDialogs.SetPointsList(mainWindow, fileParser);
+            }
         }
     }
 }

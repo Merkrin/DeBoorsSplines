@@ -12,9 +12,11 @@ namespace PointsLibrary
 
         private const string allowedCharacters = "1234567890 ";
 
-        public List<Point> ReadFile(string filePath)
+        public List<Point> PointsList { set; get; }
+
+        public void ReadFile(string filePath)
         {
-            List<Point> points = new List<Point>();
+            PointsList = new List<Point>();
 
             using (StreamReader streamReader = new StreamReader(filePath))
             {
@@ -53,7 +55,7 @@ namespace PointsLibrary
                             {
                                 try
                                 {
-                                    points.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
+                                    PointsList.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
                                 }
                                 catch (OutOfMemoryException)
                                 {
@@ -90,8 +92,6 @@ namespace PointsLibrary
                     throw new FileException("Значение параметра некорректно!");
                 }
             }
-
-            return points;
         }
 
         private bool CheckLine(string line)
@@ -100,7 +100,7 @@ namespace PointsLibrary
                 line.Split(' ').Length == 2;
         }
 
-        private bool CheckCoordinates(string x, string y)
+        public bool CheckCoordinates(string x, string y)
         {
             return int.TryParse(x, out int temporary) && int.TryParse(y, out temporary);
         }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeBoorsSplines", "DeBoorsSp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PointsLibrary", "PointsLibrary\PointsLibrary.csproj", "{B856C781-8B16-4344-A8C9-5A07C8FFEB20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SplineMathsLibrary", "SplineMathsLibrary\SplineMathsLibrary.csproj", "{B5136CCC-637E-4B38-8FF2-091E5AC20279}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B856C781-8B16-4344-A8C9-5A07C8FFEB20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B856C781-8B16-4344-A8C9-5A07C8FFEB20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B856C781-8B16-4344-A8C9-5A07C8FFEB20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5136CCC-637E-4B38-8FF2-091E5AC20279}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5136CCC-637E-4B38-8FF2-091E5AC20279}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5136CCC-637E-4B38-8FF2-091E5AC20279}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5136CCC-637E-4B38-8FF2-091E5AC20279}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

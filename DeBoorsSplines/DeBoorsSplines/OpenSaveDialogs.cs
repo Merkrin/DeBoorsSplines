@@ -1,5 +1,8 @@
 ﻿using Microsoft.Win32;
 using PointsLibrary;
+using System;
+using System.IO;
+using System.Windows;
 
 namespace DeBoorsSplines
 {
@@ -7,7 +10,7 @@ namespace DeBoorsSplines
     {
         private static PointsListDialogs pointsListDialogs = new PointsListDialogs();
 
-        public void OpenFile(MainWindow mainWindow, FileParser fileParser)
+        public void OpenFile(MainWindow mainWindow, FileParser fileParser, SplineCollection splineCollection)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -17,10 +20,30 @@ namespace DeBoorsSplines
 
             if (openFileDialog.ShowDialog() == true)
             {
-                fileParser.ReadFile(openFileDialog.FileName);
+                try
+                {
+                    fileParser.ReadFile(openFileDialog.FileName, splineCollection);
+                    pointsListDialogs.SetPointsList(mainWindow, splineCollection);
+                }
+                catch(FileException e)
+                {
+                    ShowErrorMessage(e.Message);
+                }catch(IOException e)
+                {
+                    ShowErrorMessage(e.Message);
+                }catch(Exception e)
+                {
+                    ShowErrorMessage(e.Message);
+                }
 
-                pointsListDialogs.SetPointsList(mainWindow, fileParser);
+                
             }
+        }
+
+        public void ShowErrorMessage(string errorMessage)
+        {
+            MessageBox.Show(errorMessage, "Произошла ошибка", 
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

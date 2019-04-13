@@ -23,6 +23,7 @@ namespace DeBoorsSplines
     {
         private FileParser fileParser = new FileParser();
         private OpenSaveDialogs openSaveDialogs = new OpenSaveDialogs();
+        private SplineCollection splineCollection = new SplineCollection();
 
         public MainWindow()
         {
@@ -61,7 +62,7 @@ namespace DeBoorsSplines
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
-            openSaveDialogs.OpenFile(this, fileParser);
+            openSaveDialogs.OpenFile(this, fileParser, splineCollection);
         }
     }
 }

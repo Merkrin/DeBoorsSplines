@@ -9,12 +9,14 @@ namespace DeBoorsSplines
 {
     public class PointsListDialogs
     {
-        public void SetPointsList(MainWindow mainWindow, FileParser fileParser)
+        public void SetPointsList(MainWindow mainWindow, SplineCollection splineCollection)
         {
-            for (int i = 0; i < fileParser.PointsList.Count; i++)
+            for (int i = 0; i < splineCollection.PointsList.Count; i++)
             {
-                mainWindow.PointsListBox.Items.Add(fileParser.PointsList[i]);
+                mainWindow.PointsListBox.Items.Add(splineCollection.PointsList[i]);
             }
+
+            mainWindow.ParameterTextBox.Text = splineCollection.Parameter.ToString();
         }
 
         public void AddNewPoint(MainWindow mainWindow, string newPoint)

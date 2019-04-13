@@ -8,15 +8,11 @@ namespace PointsLibrary
 {
     public class FileParser
     {
-        public double Parameter { private set; get; }
-
         private const string allowedCharacters = "1234567890 ";
 
-        public List<Point> PointsList { set; get; }
-
-        public void ReadFile(string filePath)
+        public void ReadFile(string filePath, SplineCollection splineCollection)
         {
-            PointsList = new List<Point>();
+            splineCollection.PointsList = new List<Point>();
 
             using (StreamReader streamReader = new StreamReader(filePath))
             {
@@ -55,7 +51,7 @@ namespace PointsLibrary
                             {
                                 try
                                 {
-                                    PointsList.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
+                                    splineCollection.PointsList.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
                                 }
                                 catch (OutOfMemoryException)
                                 {
@@ -76,16 +72,16 @@ namespace PointsLibrary
 
                 line = streamReader.ReadLine();
 
-                if (line != "T:")
+                if (line != "t:")
                 {
-                    throw new FileException("Требуется якорь \"T:\"!");
+                    throw new FileException("Требуется якорь \"t:\"!");
                 }
 
                 line = streamReader.ReadLine();
 
                 if (double.TryParse(line, out double t))
                 {
-                    Parameter = t;
+                    splineCollection.Parameter = t;
                 }
                 else
                 {
@@ -102,7 +98,8 @@ namespace PointsLibrary
 
         public bool CheckCoordinates(string x, string y)
         {
-            return int.TryParse(x, out int temporary) && int.TryParse(y, out temporary);
+            return int.TryParse(x, out int temporary) && temporary > 0 
+                && int.TryParse(y, out temporary) && temporary >= 0;
         }
     }
 }

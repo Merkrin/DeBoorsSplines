@@ -2,14 +2,14 @@
 {
     public class Point
     {
-        public Point(int x, int y)
+        public Point(double x, double y)
         {
             PointX = x;
             PointY = y;
         }
 
-        public int PointX { set; get; }
-        public int PointY { set; get; }
+        public double PointX { set; get; }
+        public double PointY { set; get; }
 
         public override string ToString()
         {

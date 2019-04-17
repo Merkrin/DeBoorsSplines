@@ -11,5 +11,9 @@ namespace PointsLibrary
         public double Parameter { set; get; }
 
         public List<Point> PointsList { set; get; }
+
+        public double[] KnotsVector { set; get; }
+
+        public List<Point> SplinePointsList { set; get; }
     }
 }

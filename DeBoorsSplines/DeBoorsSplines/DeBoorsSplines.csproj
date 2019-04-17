@@ -102,6 +102,10 @@
       <Project>{b856c781-8b16-4344-a8c9-5a07c8ffeb20}</Project>
       <Name>PointsLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SplineMathsLibrary\SplineMathsLibrary.csproj">
+      <Project>{b5136ccc-637e-4b38-8ff2-091e5ac20279}</Project>
+      <Name>SplineMathsLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="dbsplicon.ico" />

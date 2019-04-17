@@ -12,7 +12,7 @@ namespace SplineMathsLibrary
         private const int splineOrder = 4;
         private const double firstKnot = 0;
 
-        private void CalculateKnotsVektor(int controlPointsAmount, SplineCollection splineCollection)
+        public void CalculateKnotsVektor(int controlPointsAmount, SplineCollection splineCollection)
         {
             int knotsAmount = controlPointsAmount + splineOrder;
 

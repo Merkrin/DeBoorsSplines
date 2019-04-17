@@ -19,7 +19,9 @@
         </Menu>
         <Grid x:Name="SecondaryGrid" HorizontalAlignment="Left" Margin="0,25,0,0">
             <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0"
-                VerticalAlignment="Top" Background="White"/>
+                VerticalAlignment="Top" Background="White">
+                
+            </Canvas>
             <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left"
               Margin="395,0,0,0" VerticalAlignment="Top" Width="375" Height="375">
                 <Label x:Name="PointLabel"

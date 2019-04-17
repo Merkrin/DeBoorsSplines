@@ -6,9 +6,13 @@ using System.Windows;
 
 namespace DeBoorsSplines
 {
+    public delegate void OnPointsRenewed(MainWindow mainWindow, SplineCollection splineCollection);
+
     class OpenSaveDialogs
     {
         private static PointsListDialogs pointsListDialogs = new PointsListDialogs();
+        public OnPointsRenewed OnPointsRenewer;
+        private static DrawingClass drawingClass = new DrawingClass();
 
         public void OpenFile(MainWindow mainWindow, FileParser fileParser, SplineCollection splineCollection)
         {
@@ -24,19 +28,21 @@ namespace DeBoorsSplines
                 {
                     fileParser.ReadFile(openFileDialog.FileName, splineCollection);
                     pointsListDialogs.SetPointsList(mainWindow, splineCollection);
+                    OnPointsRenewer = drawingClass.DrawControlLines;
                 }
                 catch(FileException e)
                 {
+                    OnPointsRenewer = null;
                     ShowErrorMessage(e.Message);
                 }catch(IOException e)
                 {
+                    OnPointsRenewer = null;
                     ShowErrorMessage(e.Message);
                 }catch(Exception e)
                 {
+                    OnPointsRenewer = null;
                     ShowErrorMessage(e.Message);
                 }
-
-                
             }
         }
 

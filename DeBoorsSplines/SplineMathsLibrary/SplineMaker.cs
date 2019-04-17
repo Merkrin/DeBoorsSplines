@@ -64,7 +64,7 @@ namespace SplineMathsLibrary
                     }
                     else
                     {
-                        temporaryNumber = N[j - 1] / (rightKnot - leftKnot);
+                        temporaryNumber = N[j + 1] / (rightKnot - leftKnot);
                         N[j] = savedNumber + (rightKnot - knot) * temporaryNumber;
                         savedNumber = (knot - leftKnot) * temporaryNumber;
                     }
@@ -90,7 +90,7 @@ namespace SplineMathsLibrary
             return new Point(x, y);
         }
 
-        public void SetSplineCurve(int controlPointsAmount, double knot, SplineCollection splineCollection)
+        public void SetSplineCurve(int controlPointsAmount, SplineCollection splineCollection)
         {
             splineCollection.SplinePointsList = new List<Point>();
 

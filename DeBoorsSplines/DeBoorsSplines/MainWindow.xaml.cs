@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PointsLibrary;
+using SplineMathsLibrary;
 
 namespace DeBoorsSplines
 {
@@ -24,6 +25,9 @@ namespace DeBoorsSplines
         private FileParser fileParser = new FileParser();
         private OpenSaveDialogs openSaveDialogs = new OpenSaveDialogs();
         private SplineCollection splineCollection = new SplineCollection();
+        private KnotsClass knotsClass = new KnotsClass();
+        private SplineMaker splineMaker = new SplineMaker();
+        private DrawingClass drawingClass = new DrawingClass();
 
         public MainWindow()
         {
@@ -63,6 +67,13 @@ namespace DeBoorsSplines
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
             openSaveDialogs.OpenFile(this, fileParser, splineCollection);
+            openSaveDialogs.OnPointsRenewer?.Invoke(this, splineCollection);
+            if(openSaveDialogs.OnPointsRenewer != null)
+            {
+                knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
+                splineMaker.SetSplineCurve(splineCollection.PointsList.Count(), splineCollection);
+                drawingClass.DrawSpline(this, splineCollection);
+            }
         }
     }
 }

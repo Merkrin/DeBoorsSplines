@@ -15,22 +15,20 @@ namespace SplineMathsLibrary
         public void CalculateKnotsVektor(int controlPointsAmount, SplineCollection splineCollection)
         {
             int knotsAmount = controlPointsAmount + splineOrder;
-
             splineCollection.KnotsVector = new double[knotsAmount];
+            double step = 1d/(knotsAmount-2*splineOrder+1);
 
             for (int i = 0; i < splineOrder; i++)
             {
-                splineCollection.KnotsVector[i] = firstKnot;
+                splineCollection.KnotsVector[i] = 0;
             }
-
-            for (int i = splineOrder; i <= knotsAmount - splineOrder; i++)
+            for(int i = splineOrder; i < knotsAmount-splineOrder; i++)
             {
-                splineCollection.KnotsVector[i] = splineCollection.KnotsVector[i - 1] + splineCollection.Parameter;
+                splineCollection.KnotsVector[i] = splineCollection.KnotsVector[i-1]+step;
             }
-
-            for (int i = knotsAmount - splineOrder + 1; i < knotsAmount; i++)
+            for(int i = knotsAmount - splineOrder; i < knotsAmount; i++)
             {
-                splineCollection.KnotsVector[i] = splineCollection.KnotsVector[i - 1];
+                splineCollection.KnotsVector[i] = 1;
             }
         }
     }

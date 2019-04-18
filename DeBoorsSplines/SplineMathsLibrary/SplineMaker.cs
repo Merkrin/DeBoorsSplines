@@ -74,14 +74,14 @@ namespace SplineMathsLibrary
             return N[0];
         }
 
-        public Point GetPoint(int controlPointsAmount, double knot, SplineCollection splineCollection)
+        public Point GetPoint(int controlPointsAmount, double t, SplineCollection splineCollection)
         {
             double x = 0,
                 y = 0;
 
             for(int i = 0; i < controlPointsAmount; i++)
             {
-                double n = CalculateN(i, knot, splineCollection);
+                double n = CalculateN(i, t, splineCollection);
 
                 x += splineCollection.PointsList[i].PointX * n;
                 y += splineCollection.PointsList[i].PointY * n;
@@ -94,9 +94,9 @@ namespace SplineMathsLibrary
         {
             splineCollection.SplinePointsList = new List<Point>();
 
-            for(int i = 0; i < splineCollection.KnotsVector.Count(); i++)
+            for(double i = 0; i < 1; i += splineCollection.Parameter)
             {
-                splineCollection.SplinePointsList.Add(GetPoint(controlPointsAmount, splineCollection.KnotsVector[i], splineCollection));
+                splineCollection.SplinePointsList.Add(GetPoint(controlPointsAmount, i, splineCollection));
             }
         }
     }

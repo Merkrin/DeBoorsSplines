@@ -9,7 +9,6 @@ namespace SplineMathsLibrary
     {
         // Постоянные значения порядка сплайна и первого узла.
         private const int splineOrder = 4;
-        //private const double firstKnot = 0;
 
         /// <summary>
         /// Метод высчитывания значений точек вектора узлов в диапазоне от 0 до 1.

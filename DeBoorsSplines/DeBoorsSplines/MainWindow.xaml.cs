@@ -85,18 +85,21 @@ namespace DeBoorsSplines
 
         private void DrawingCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //if (splineCollection.PointsList == null)
-            //    splineCollection.PointsList = new List<PointsLibrary.Point>();
+            DrawingCanvas.Children.Clear();
 
-            //splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(this).X, e.GetPosition(this).Y));
+            if (splineCollection.PointsList == null)
+                splineCollection.PointsList = new List<PointsLibrary.Point>();
 
-            //if (splineCollection.PointsList.Count() >= 4)
-            //{
-            //    drawingClass.DrawControlLines(this, splineCollection);
-            //    knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
-            //    splineMaker.SetSplineCurve(splineCollection.PointsList.Count(), splineCollection);
-            //    drawingClass.DrawSpline(this, splineCollection);
-            //}
+            splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(this).X, e.GetPosition(this).Y));
+
+            if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
+            {
+                DrawingClass drawingClass = new DrawingClass();
+                drawingClass.DrawControlLines(this, splineCollection);
+                // TODO
+                splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
+                MakeSpline();
+            }
         }
     }
 }

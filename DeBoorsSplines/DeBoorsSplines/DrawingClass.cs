@@ -1,22 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PointsLibrary;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using PointsLibrary;
 
 namespace DeBoorsSplines
 {
+    /// <summary>
+    /// Класс рисования сплайна.
+    /// </summary>
     public class DrawingClass
     {
-        private static SolidColorBrush pointsBrush = new SolidColorBrush { Color = Color.FromRgb(254, 88, 92)};
+        // Кисть для заливки окружностей, отмечающих на рабочем пространстве 
+        // опорные точки.
+        private static SolidColorBrush pointsBrush = new SolidColorBrush { Color = Color.FromRgb(254, 88, 92) };
 
         private void DrawControlPoints(MainWindow mainWindow, SplineCollection splineCollection)
         {
-            for(int i = 0; i < splineCollection.PointsList.Count(); i++)
+            for (int i = 0; i < splineCollection.PointsList.Count(); i++)
             {
                 Ellipse controlPoint = new Ellipse
                 {
@@ -25,20 +26,30 @@ namespace DeBoorsSplines
                     Height = 8,
                 };
 
-                Canvas.SetLeft(controlPoint, splineCollection.PointsList[i].PointX-4);
-                Canvas.SetTop(controlPoint, splineCollection.PointsList[i].PointY-4);
+                Canvas.SetLeft(controlPoint, splineCollection.PointsList[i].PointX - 4);
+                Canvas.SetTop(controlPoint, splineCollection.PointsList[i].PointY - 4);
 
                 mainWindow.DrawingCanvas.Children.Add(controlPoint);
             }
         }
 
+        /// <summary>
+        /// Метод, рисующий прямые между последовательными опорными точками.
+        /// </summary>
+        /// <param name="mainWindow">
+        /// Объект класса MainWindow для работы с элементами интерфейса.
+        /// </param>
+        /// <param name="splineCollection">
+        /// Объект класса-контейнера SplineCollection с информацией об элементах
+        /// сплайна.
+        /// </param>
         public void DrawControlLines(MainWindow mainWindow, SplineCollection splineCollection)
         {
             for (int i = 1; i < splineCollection.PointsList.Count(); i++)
             {
                 Line line = new Line
                 {
-                    X1 = splineCollection.PointsList[i-1].PointX,
+                    X1 = splineCollection.PointsList[i - 1].PointX,
                     Y1 = splineCollection.PointsList[i - 1].PointY,
                     X2 = splineCollection.PointsList[i].PointX,
                     Y2 = splineCollection.PointsList[i].PointY,
@@ -52,9 +63,20 @@ namespace DeBoorsSplines
             DrawControlPoints(mainWindow, splineCollection);
         }
 
+        /// <summary>
+        /// Метод рисования сплайна, то есть линий между двумя последовательными
+        /// точками сплайна.
+        /// </summary>
+        /// <param name="mainWindow">
+        /// Объект класса MainWindow для работы с элементами интерфейса.
+        /// </param>
+        /// <param name="splineCollection">
+        /// Объект класса-контейнера SplineCollection с информацией об элементах
+        /// сплайна.
+        /// </param>
         public void DrawSpline(MainWindow mainWindow, SplineCollection splineCollection)
         {
-            for(int i = 2; i < splineCollection.SplinePointsList.Count(); i++)
+            for (int i = 2; i < splineCollection.SplinePointsList.Count(); i++)
             {
                 Line line = new Line
                 {

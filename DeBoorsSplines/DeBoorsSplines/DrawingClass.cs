@@ -54,7 +54,7 @@ namespace DeBoorsSplines
 
         public void DrawSpline(MainWindow mainWindow, SplineCollection splineCollection)
         {
-            for(int i = 1; i < splineCollection.SplinePointsList.Count(); i++)
+            for(int i = 2; i < splineCollection.SplinePointsList.Count(); i++)
             {
                 Line line = new Line
                 {

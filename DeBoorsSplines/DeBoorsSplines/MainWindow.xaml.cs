@@ -64,16 +64,39 @@ namespace DeBoorsSplines
             }
         }
 
+        private void MakeSpline()
+        {
+            knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
+            splineMaker.SetSplineCurve(splineCollection.PointsList.Count(), splineCollection);
+            drawingClass.DrawSpline(this, splineCollection);
+        }
+
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            DrawingCanvas.Children.Clear();
             openSaveDialogs.OpenFile(this, fileParser, splineCollection);
-            openSaveDialogs.OnPointsRenewer?.Invoke(this, splineCollection);
+            
             if(openSaveDialogs.OnPointsRenewer != null)
             {
-                knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
-                splineMaker.SetSplineCurve(splineCollection.PointsList.Count(), splineCollection);
-                drawingClass.DrawSpline(this, splineCollection);
+                openSaveDialogs.OnPointsRenewer?.Invoke(this, splineCollection);
+                MakeSpline();
             }
+        }
+
+        private void DrawingCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (splineCollection.PointsList == null)
+            //    splineCollection.PointsList = new List<PointsLibrary.Point>();
+
+            //splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(this).X, e.GetPosition(this).Y));
+
+            //if (splineCollection.PointsList.Count() >= 4)
+            //{
+            //    drawingClass.DrawControlLines(this, splineCollection);
+            //    knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
+            //    splineMaker.SetSplineCurve(splineCollection.PointsList.Count(), splineCollection);
+            //    drawingClass.DrawSpline(this, splineCollection);
+            //}
         }
     }
 }

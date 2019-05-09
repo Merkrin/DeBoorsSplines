@@ -54,6 +54,9 @@ namespace DeBoorsSplines
 
             ButtonsGrid.Width = MainGrid.Width - canvasWidth;
             ButtonsGrid.Margin = new Thickness(canvasWidth+5, 0, 0, 0);
+
+            SizeLabel.Content = string.Format($"Размеры рабочей поверхности:" +
+                $" {canvasWidth}x{DrawingCanvas.Height-10-25-10}");
         }
 
         private void AddPointButton_Click(object sender, RoutedEventArgs e)
@@ -90,7 +93,9 @@ namespace DeBoorsSplines
             if (splineCollection.PointsList == null)
                 splineCollection.PointsList = new List<PointsLibrary.Point>();
 
-            splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(this).X, e.GetPosition(this).Y));
+            splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
+
+            drawingClass.DrawControlLines(this, splineCollection);
 
             if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
             {

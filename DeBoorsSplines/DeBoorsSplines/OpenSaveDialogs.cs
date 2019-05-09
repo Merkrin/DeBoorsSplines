@@ -27,6 +27,7 @@ namespace DeBoorsSplines
         private static PointsListDialogs pointsListDialogs = new PointsListDialogs();
         public OnPointsRenewed OnPointsRenewer;
         private static DrawingClass drawingClass = new DrawingClass();
+        private static ScaleClass scaleClass = new ScaleClass();
 
         /// <summary>
         /// Метод взаимодействия с диалоговым окном открытия файла. Открывается
@@ -55,6 +56,17 @@ namespace DeBoorsSplines
                 try
                 {
                     fileParser.ReadFile(openFileDialog.FileName, splineCollection);
+
+                    if(scaleClass.CheckScaling(mainWindow, splineCollection))
+                    {
+                        scaleClass.ScaleSpline(mainWindow, splineCollection);
+
+                        MessageBox.Show("Для налядной визуализации опорная кривая" +
+                            " была отмасштабирована под размер рабочей поверхности",
+                            "Проведено масштабирование", MessageBoxButton.OK,
+                            MessageBoxImage.Information);
+                    }
+
                     pointsListDialogs.SetPointsList(mainWindow, splineCollection);
                     OnPointsRenewer = drawingClass.DrawControlLines;
                 }

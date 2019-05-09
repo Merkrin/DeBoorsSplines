@@ -10,7 +10,7 @@
         WindowState="Maximized" Background="#FFFFF0F0" Icon="dbsplicon.ico">
     <Grid x:Name="MainGrid" Margin="10,10,10,10" HorizontalAlignment="Left"
           Width="780">
-        <Menu VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0">
+        <Menu x:Name="MenuStrip" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0">
             <MenuItem Header="File" >
                 <MenuItem x:Name="OpenMenuItem" Header="Open" Click="OpenMenuItem_Click"/>
                 <MenuItem Header="Сохранить как..."/>
@@ -20,7 +20,6 @@
         <Grid x:Name="SecondaryGrid" HorizontalAlignment="Left" Margin="0,25,0,0">
             <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0"
                 VerticalAlignment="Top" Background="White" MouseDown="DrawingCanvas_MouseDown">
-                
             </Canvas>
             <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left"
               Margin="395,0,0,0" VerticalAlignment="Top" Width="375" Height="375">
@@ -46,6 +45,9 @@
                        HorizontalAlignment="Left"
                        Margin="225,202,0,0" VerticalAlignment="Top"
                        FontWeight="Bold"/>
+                <Label x:Name="SizeLabel" Content="Label"
+                       HorizontalAlignment="Left" Margin="0,54,0,0"
+                       VerticalAlignment="Top" Width="350"/>
             </Grid>
         </Grid>
     </Grid>

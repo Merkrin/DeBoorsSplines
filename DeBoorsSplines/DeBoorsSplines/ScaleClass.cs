@@ -115,31 +115,35 @@ namespace DeBoorsSplines
             ChangeSplineX(splineCollection);
             ChangeSplineY(splineCollection);
 
-            double oldWidth = mainWindow.DeBoorsSplinesAppWindow.ActualWidth / 100 * 70,
-                oldHeight = mainWindow.DrawingCanvas.Height - 65 -mainWindow.MenuStrip.ActualHeight,
-                newWidth = 0,
-                newHeight = 0;
 
-            if (splineCollection.PointsList[ScalingPointIndex].PointX >= oldWidth)
+            if (CheckScaling(mainWindow, splineCollection))
             {
-                newWidth = splineCollection.PointsList[ScalingPointIndex].PointX+8;
+                double oldWidth = mainWindow.DeBoorsSplinesAppWindow.ActualWidth / 100 * 70,
+                    oldHeight = mainWindow.DrawingCanvas.Height - 65 - mainWindow.MenuStrip.ActualHeight,
+                    newWidth = oldWidth,
+                    newHeight = oldHeight;
 
-                //newHeight = oldHeight * newWidth / oldWidth;
-            }
-            if(splineCollection.PointsList[ScalingPointIndex].PointY >= oldHeight)
-            {
-                newHeight = splineCollection.PointsList[ScalingPointIndex].PointY+8;
+                if (splineCollection.PointsList[ScalingPointIndex].PointX >= oldWidth)
+                {
+                    newWidth = splineCollection.PointsList[ScalingPointIndex].PointX + 8;
 
-                //newWidth = oldWidth * newHeight / oldHeight;
-            }
+                    //newHeight = oldHeight * newWidth / oldWidth;
+                }
+                if (splineCollection.PointsList[ScalingPointIndex].PointY >= oldHeight)
+                {
+                    newHeight = splineCollection.PointsList[ScalingPointIndex].PointY + 8;
 
-            double coeffX = oldWidth / newWidth,
-                coeffY = oldHeight/newHeight;
+                    //newWidth = oldWidth * newHeight / oldHeight;
+                }
 
-            for (int i = 0; i < splineCollection.PointsList.Count(); i++)
-            {
-                splineCollection.PointsList[i].PointX = (int)(coeffX* splineCollection.PointsList[i].PointX);
-                splineCollection.PointsList[i].PointY = (int)(coeffY* splineCollection.PointsList[i].PointY);
+                double coeffX = oldWidth / newWidth,
+                    coeffY = oldHeight / newHeight;
+
+                for (int i = 0; i < splineCollection.PointsList.Count(); i++)
+                {
+                    splineCollection.PointsList[i].PointX = (int)(coeffX * splineCollection.PointsList[i].PointX);
+                    splineCollection.PointsList[i].PointY = (int)(coeffY * splineCollection.PointsList[i].PointY);
+                }
             }
         }
     }

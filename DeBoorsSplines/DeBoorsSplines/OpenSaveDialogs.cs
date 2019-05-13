@@ -28,6 +28,9 @@ namespace DeBoorsSplines
         public OnPointsRenewed OnPointsRenewer;
         private static DrawingClass drawingClass = new DrawingClass();
         private static ScaleClass scaleClass = new ScaleClass();
+        public OpenFileDialog openFileDialog;
+
+        private string Path { set; get; }
 
         /// <summary>
         /// Метод взаимодействия с диалоговым окном открытия файла. Открывается
@@ -45,7 +48,7 @@ namespace DeBoorsSplines
         /// </param>
         public void OpenFile(MainWindow mainWindow, FileParser fileParser, SplineCollection splineCollection)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog
+            openFileDialog = new OpenFileDialog
             {
                 Filter = "Text files (*.txt)|*.txt|DeBoorsSplines" +
                 " Files (*.dbsp)|*.dbsp|All files (*.*)|*.*"
@@ -55,17 +58,19 @@ namespace DeBoorsSplines
             {
                 try
                 {
-                    fileParser.ReadFile(openFileDialog.FileName, splineCollection);
+                    Path = openFileDialog.FileName;
 
-                    if(scaleClass.CheckScaling(mainWindow, splineCollection))
-                    {
-                        scaleClass.ScaleSpline(mainWindow, splineCollection);
+                    fileParser.ReadFile(Path, splineCollection);
 
-                        MessageBox.Show("Для налядной визуализации опорная кривая" +
-                            " была отмасштабирована под размер рабочей поверхности",
-                            "Проведено масштабирование", MessageBoxButton.OK,
-                            MessageBoxImage.Information);
-                    }
+                    //if(scaleClass.CheckScaling(mainWindow, splineCollection))
+                    //{
+                    //    scaleClass.ScaleSpline(mainWindow, splineCollection);
+
+                    //    MessageBox.Show("Для налядной визуализации опорная кривая" +
+                    //        " была отмасштабирована под размер рабочей поверхности",
+                    //        "Проведено масштабирование", MessageBoxButton.OK,
+                    //        MessageBoxImage.Information);
+                    //}
 
                     pointsListDialogs.SetPointsList(mainWindow, splineCollection);
                     OnPointsRenewer = drawingClass.DrawControlLines;

@@ -19,8 +19,7 @@
         </Menu>
         <Grid x:Name="SecondaryGrid" HorizontalAlignment="Left" Margin="0,25,0,0">
             <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0"
-                VerticalAlignment="Top" Background="White" MouseDown="DrawingCanvas_MouseDown">
-            </Canvas>
+                VerticalAlignment="Top" Background="White" MouseDown="DrawingCanvas_MouseDown" MouseUp="DrawingCanvas_MouseUp"/>
             <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left"
               Margin="395,0,0,0" VerticalAlignment="Top" Width="375" Height="375">
                 <Label x:Name="PointLabel"
@@ -45,9 +44,19 @@
                        HorizontalAlignment="Left"
                        Margin="225,202,0,0" VerticalAlignment="Top"
                        FontWeight="Bold"/>
-                <Label x:Name="SizeLabel" Content="Label"
-                       HorizontalAlignment="Left" Margin="0,54,0,0"
-                       VerticalAlignment="Top" Width="350"/>
+                <StackPanel x:Name="ClickModePanel" HorizontalAlignment="Left" Height="79" 
+                            Margin="0,54,0,0" VerticalAlignment="Top" Width="365">
+                    <Label Content="Действие по нажатию на рабочую поверхность"/>
+                    <RadioButton x:Name="AddPointRadioButton"
+                                 Content="Добавить опорную точку"
+                                 GroupName="ClickModeGroup"/>
+                    <RadioButton x:Name="RelocatePointRadioButton" 
+                                 Content="Переместить опорную точку"
+                                 GroupName="ClickModeGroup"/>
+                    <RadioButton x:Name="RelocateSplineRadioButton" 
+                                 Content="Переместить сплайн"
+                                 GroupName="ClickModeGroup" IsChecked="True"/>
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

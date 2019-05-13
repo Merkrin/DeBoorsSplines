@@ -28,6 +28,9 @@ namespace DeBoorsSplines
         private KnotsClass knotsClass = new KnotsClass();
         private SplineMaker splineMaker = new SplineMaker();
         private DrawingClass drawingClass = new DrawingClass();
+        private double OldCoordinateX { set; get; }
+        private double OldCoordinateY { set; get; }
+        private bool mouseClicked = false;
 
         public MainWindow()
         {
@@ -54,9 +57,6 @@ namespace DeBoorsSplines
 
             ButtonsGrid.Width = MainGrid.Width - canvasWidth;
             ButtonsGrid.Margin = new Thickness(canvasWidth+5, 0, 0, 0);
-
-            SizeLabel.Content = string.Format($"Размеры рабочей поверхности:" +
-                $" {canvasWidth}x{DrawingCanvas.Height-10-25-10}");
         }
 
         private void AddPointButton_Click(object sender, RoutedEventArgs e)
@@ -88,23 +88,92 @@ namespace DeBoorsSplines
 
         private void DrawingCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            DrawingCanvas.Children.Clear();
+            OldCoordinateX = e.GetPosition(DrawingCanvas).X;
+            OldCoordinateY = e.GetPosition(DrawingCanvas).Y;
+            mouseClicked = true;
 
-            if (splineCollection.PointsList == null)
-                splineCollection.PointsList = new List<PointsLibrary.Point>();
-
-            splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
-
-            drawingClass.DrawControlLines(this, splineCollection);
-
-            if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
+            if (AddPointRadioButton.IsChecked == true)
             {
-                DrawingClass drawingClass = new DrawingClass();
+                DrawingCanvas.Children.Clear();
+
+                if (splineCollection.PointsList == null)
+                {
+                    splineCollection.PointsList = new List<PointsLibrary.Point>();
+                }
+
+                splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
+
                 drawingClass.DrawControlLines(this, splineCollection);
-                // TODO
-                splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
-                MakeSpline();
+
+                if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
+                {
+                    DrawingClass drawingClass = new DrawingClass();
+                    drawingClass.DrawControlLines(this, splineCollection);
+                    // TODO
+                    splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
+                    MakeSpline();
+                }
             }
         }
+
+        private void DrawingCanvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (mouseClicked)
+            {
+                double xChanges = OldCoordinateX - e.GetPosition(DrawingCanvas).X,
+                    yChanges = OldCoordinateY - e.GetPosition(DrawingCanvas).Y;
+
+                for (int i = 0; i < DrawingCanvas.Children.Count; i++)
+                {
+                    if (DrawingCanvas.Children[i] is Line)
+                    {
+                        Line line = DrawingCanvas.Children[i] as Line;
+                        line.X1 -= xChanges;
+                        line.X2 -= xChanges;
+                        line.Y1 -= yChanges;
+                        line.Y2 -= yChanges;
+                        DrawingCanvas.Children[i] = line;
+                    }
+                    else if (DrawingCanvas.Children[i] is Ellipse)
+                    {
+                        Ellipse ellipse = DrawingCanvas.Children[i] as Ellipse;
+                        Canvas.SetLeft(ellipse, Canvas.GetLeft(ellipse) - xChanges);
+                        Canvas.SetTop(ellipse, Canvas.GetTop(ellipse) - yChanges);
+                        DrawingCanvas.Children[i] = ellipse;
+                    }
+                }
+
+                mouseClicked = false;
+            }
+        }
+
+        //private void DrawingCanvas_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    if (e.LeftButton == MouseButtonState.Pressed)
+        //    {
+        //        double xChanges = OldCoordinateX - e.GetPosition(DrawingCanvas).X,
+        //            yChanges = OldCoordinateY - e.GetPosition(DrawingCanvas).Y;
+
+        //        for(int i = 0; i < DrawingCanvas.Children.Count; i++)
+        //        {
+        //            if(DrawingCanvas.Children[i] is Line)
+        //            {
+        //                Line line = DrawingCanvas.Children[i] as Line;
+        //                line.X1 -= xChanges;
+        //                line.X2 -= xChanges;
+        //                line.Y1 -= yChanges;
+        //                line.Y2 -= yChanges;
+        //                DrawingCanvas.Children[i] = line;
+        //            }
+        //            else if(DrawingCanvas.Children[i] is Ellipse)
+        //            {
+        //                Ellipse ellipse = DrawingCanvas.Children[i] as Ellipse;
+        //                Canvas.SetLeft(ellipse, Canvas.GetLeft(ellipse) - xChanges);
+        //                Canvas.SetTop(ellipse, Canvas.GetTop(ellipse) - yChanges);
+        //                DrawingCanvas.Children[i] = ellipse;
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

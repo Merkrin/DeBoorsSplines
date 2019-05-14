@@ -34,7 +34,7 @@
                     HorizontalAlignment="Left" Margin="125,26,0,0"
                     VerticalAlignment="Top" Width="100" Click="AddPointButton_Click"/>
                 <ListBox x:Name="PointsListBox" HorizontalAlignment="Left"
-                         Height="131" Margin="10,234,0,0"
+                         Height="141" Margin="10,234,0,0"
                          VerticalAlignment="Top" Width="215">
                     <TextBlock FontWeight="Bold" TextDecorations="Underline"
                                Text="Список контрольных точек"/>
@@ -65,7 +65,7 @@
                          Margin="0,157,0,0"
                          TextWrapping="Wrap" Text="0,0,0" VerticalAlignment="Top" Width="120" KeyDown="StartingColorTextBox_KeyDown"/>
                 <TextBox x:Name="EndingColorTextBox"
-                         HorizontalAlignment="Left" Height="23" Margin="0,206,0,0" TextWrapping="Wrap" Text="#190,190,190" VerticalAlignment="Top" Width="120"/>
+                         HorizontalAlignment="Left" Height="23" Margin="0,206,0,0" TextWrapping="Wrap" Text="190,190,190" VerticalAlignment="Top" Width="120"/>
                 <Rectangle x:Name="StartingColorExample" Fill="#000000" HorizontalAlignment="Left" Height="23" Margin="125,157,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
                 <Rectangle Fill="#bebebe" HorizontalAlignment="Left" Height="23" Margin="125,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
                 <Label Content="Начальный цвет (RGB)" 
@@ -85,7 +85,10 @@
                 <Button x:Name="GenerationButton" Content="Сгенерировать сплайн" HorizontalAlignment="Left" Margin="237,134,0,0" VerticalAlignment="Top" Width="136"/>
                 <Label Content="Генерация случайного сплайна" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
                 <Button x:Name="EditPointButton" Content="Изменить точку" HorizontalAlignment="Left" Margin="237,257,0,0" VerticalAlignment="Top" Width="95"/>
-                <Button x:Name="DeletePointButton" Content="Удалить точку" HorizontalAlignment="Left" Margin="237,284,0,0" VerticalAlignment="Top" Width="95"/>
+                <Button x:Name="DeletePointButton" Content="Удалить точку" HorizontalAlignment="Left" Margin="237,284,0,0" VerticalAlignment="Top" Width="95" Click="DeletePointButton_Click"/>
+                <TextBox x:Name="ChangePointTextBox" HorizontalAlignment="Left"
+                         Height="23" Margin="237,229,0,0" TextWrapping="Wrap"
+                         Text="x,y" VerticalAlignment="Top" Width="120"/>
             </Grid>
         </Grid>
     </Grid>

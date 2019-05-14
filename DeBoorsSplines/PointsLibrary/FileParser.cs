@@ -99,7 +99,7 @@ namespace PointsLibrary
         public bool CheckCoordinates(string x, string y)
         {
             return int.TryParse(x, out int temporary) && temporary > 0 
-                && int.TryParse(y, out temporary) && temporary >= 0;
+                && int.TryParse(y, out temporary) && temporary > 0;
         }
     }
 }

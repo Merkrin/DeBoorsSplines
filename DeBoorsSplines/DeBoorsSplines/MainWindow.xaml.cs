@@ -29,6 +29,7 @@ namespace DeBoorsSplines
         private KnotsClass knotsClass = new KnotsClass();
         private SplineMaker splineMaker = new SplineMaker();
         private DrawingClass drawingClass;
+        private PointsListDialogs pointsListDialogs;
         private ColorDialogs colorDialogs = new ColorDialogs();
         private double OldCoordinateX { set; get; }
         private double OldCoordinateY { set; get; }
@@ -41,6 +42,8 @@ namespace DeBoorsSplines
 
             drawingClass = new DrawingClass(this, splineCollection);
             openSaveDialogs = new OpenSaveDialogs(this, drawingClass);
+            pointsListDialogs = new PointsListDialogs(this);
+            pointsListDialogs.splineCollection = splineCollection;
 
             DeBoorsSplinesAppWindow.MinHeight = 
                 SystemParameters.PrimaryScreenHeight / 3 * 2;
@@ -107,16 +110,19 @@ namespace DeBoorsSplines
                     splineCollection.PointsList = new List<PointsLibrary.Point>();
                 }
 
-                splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
+                splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
+                pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() +" "+ e.GetPosition(DrawingCanvas).Y.ToString());
+
+                //splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
 
                 drawingClass.DrawControlLines();
 
                 if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
                 {
                     //DrawingClass drawingClass = new DrawingClass();
-                    drawingClass.DrawControlLines();
+                    //drawingClass.DrawControlLines();
                     // TODO
-                    splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
+                    
                     MakeSpline();
                 }
             }
@@ -124,7 +130,7 @@ namespace DeBoorsSplines
 
         private void DrawingCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (mouseClicked)
+            if (mouseClicked && RelocatePointRadioButton.IsChecked == true)
             {
                 double xChanges = OldCoordinateX - e.GetPosition(DrawingCanvas).X,
                     yChanges = OldCoordinateY - e.GetPosition(DrawingCanvas).Y;
@@ -161,9 +167,12 @@ namespace DeBoorsSplines
                 {
                     splineCollection.Parameter = t;
 
-                    DrawingCanvas.Children.Clear();
-                    drawingClass.DrawControlLines();
-                    MakeSpline();
+                    if (splineCollection.PointsList != null && splineCollection.PointsList.Count() >= 4)
+                    {
+                        DrawingCanvas.Children.Clear();
+                        drawingClass.DrawControlLines();
+                        MakeSpline();
+                    }
                 }
                 else
                 {
@@ -199,6 +208,18 @@ namespace DeBoorsSplines
                     openSaveDialogs.ShowErrorMessage("Введите правильный цвет " +
                         "в формате RGB: \"r,g,b\"!");
                 }
+            }
+        }
+
+        private void DeletePointButton_Click(object sender, RoutedEventArgs e)
+        {
+            pointsListDialogs.DeletePoint();
+            DrawingCanvas.Children.Clear();
+
+            if (splineCollection.PointsList.Count() >= 4)
+            {
+                drawingClass.DrawControlLines();
+                MakeSpline();
             }
         }
     }

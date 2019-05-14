@@ -9,6 +9,14 @@ namespace DeBoorsSplines
     /// </summary>
     public class PointsListDialogs
     {
+        public SplineCollection splineCollection { set; get; }
+        public MainWindow mainWindow { set; get; }
+
+        public PointsListDialogs(MainWindow mainWindow)
+        {
+            this.mainWindow = mainWindow;
+        }
+
         /// <summary>
         /// Метод, устанавливающий список координат, если координаты посылаются
         /// одномоментно. То есть при загрузке координат из внешних источников.
@@ -20,7 +28,7 @@ namespace DeBoorsSplines
         /// Объект класса-контейнера SplineCollection с информацией об элементах
         /// сплайна.
         /// </param>
-        public void SetPointsList(MainWindow mainWindow, SplineCollection splineCollection)
+        public void SetPointsList()
         {
             mainWindow.PointsListBox.Items.Clear();
 
@@ -42,6 +50,18 @@ namespace DeBoorsSplines
             mainWindow.ParameterTextBox.Text = splineCollection.Parameter.ToString();
         }
 
+        public void DeletePoint()
+        {
+            splineCollection.PointsList.RemoveAt(mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem) - 1);
+
+            mainWindow.PointsListBox.Items.RemoveAt(mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem));
+
+            for(int i = 1; i < mainWindow.PointsListBox.Items.Count; i++)
+            {
+                mainWindow.PointsListBox.Items[i] = $"{i - 1}) {splineCollection.PointsList[i - 1]}";
+            }
+        }
+
         /// <summary>
         /// Метод добавления в список опорных точек новой точки по строке вида
         /// "x y".
@@ -52,16 +72,16 @@ namespace DeBoorsSplines
         /// <param name="newPoint">
         /// Строка, содержащая координаты новой опрной точки.
         /// </param>
-        public void AddNewPoint(MainWindow mainWindow, string newPoint)
+        public void AddNewPoint(string newPoint)
         {
             string xCoordinate = newPoint.Split(' ')[0],
                 yCoordinate = newPoint.Split(' ')[1];
 
-            if (int.TryParse(xCoordinate, out int temporary) &&
-                int.TryParse(yCoordinate, out temporary))
+            if (int.TryParse(xCoordinate, out int temporaryX) && temporaryX > 0 &&
+                int.TryParse(yCoordinate, out int temporaryY) && temporaryY > 0)
             {
-
-                //mainWindow.PointsListBox.Items.Add();
+                splineCollection.PointsList.Add(new PointsLibrary.Point(temporaryX, temporaryY));
+                SetPointsList();
             }
         }
     }

@@ -24,7 +24,7 @@ namespace DeBoorsSplines
     /// </summary>
     public class OpenSaveDialogs
     {
-        private static PointsListDialogs pointsListDialogs = new PointsListDialogs();
+        private static PointsListDialogs pointsListDialogs;
         public OnPointsRenewed OnPointsRenewer;
         //private static DrawingClass drawingClass = new DrawingClass();
         public OpenFileDialog openFileDialog;
@@ -38,6 +38,7 @@ namespace DeBoorsSplines
         {
             this.mainWindow = mainWindow;
             this.drawingClass = drawingClass;
+            pointsListDialogs = new PointsListDialogs(mainWindow);
         }
 
         /// <summary>
@@ -56,6 +57,8 @@ namespace DeBoorsSplines
         /// </param>
         public void OpenFile(FileParser fileParser, SplineCollection splineCollection)
         {
+            pointsListDialogs.splineCollection = splineCollection;
+
             openFileDialog = new OpenFileDialog
             {
                 Filter = "Text files (*.txt)|*.txt|DeBoorsSplines" +
@@ -80,7 +83,7 @@ namespace DeBoorsSplines
                     //        MessageBoxImage.Information);
                     //}
 
-                    pointsListDialogs.SetPointsList(mainWindow, splineCollection);
+                    pointsListDialogs.SetPointsList();
                     OnPointsRenewer = drawingClass.DrawControlLines;
                 }
                 catch (FileException e)

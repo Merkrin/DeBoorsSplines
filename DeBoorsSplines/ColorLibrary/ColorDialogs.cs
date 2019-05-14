@@ -14,12 +14,14 @@ namespace ColorLibrary
 
         public bool CheckColor(string line)
         {
-                return line[0] == '#' && line.Length == 7 &&
-                int.TryParse(line.Substring(1),
-                    System.Globalization.NumberStyles.HexNumber,
-                    null, out int color) || line.Length == 6 && int.TryParse(line,
-                    System.Globalization.NumberStyles.HexNumber,
-                    null, out color);
+            string[] colors = line.Split(',');
+
+                return colors.Length == 3 && CheckNumber(colors[0]) && CheckNumber(colors[1]) && CheckNumber(colors[2]);
+        }
+
+        private bool CheckNumber(string line)
+        {
+            return int.TryParse(line, out int x) && x >= 0 && x <= 255;
         }
 
         public List<Color> SetColors(string startingColor, string endingColor, int partsAmount)

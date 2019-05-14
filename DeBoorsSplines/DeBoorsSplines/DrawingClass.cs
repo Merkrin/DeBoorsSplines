@@ -3,6 +3,10 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using ColorLibrary;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
 namespace DeBoorsSplines
 {
@@ -11,9 +15,22 @@ namespace DeBoorsSplines
     /// </summary>
     public class DrawingClass
     {
+        private ColorDialogs colorDialogs = new ColorDialogs();
+
+        public string StartingColor { set; get; }
+        public string EndingColor { set; get; }
+
+        public DrawingClass()
+        {
+            StartingColor = "#000000";
+            EndingColor = "#bebebe";
+        }
+
         // Кисть для заливки окружностей, отмечающих на рабочем пространстве 
         // опорные точки.
-        private static SolidColorBrush pointsBrush = new SolidColorBrush { Color = Color.FromRgb(254, 88, 92) };
+        private static SolidColorBrush pointsBrush = new SolidColorBrush {
+            Color = System.Windows.Media.Color.FromRgb(254, 88, 92)
+        };
 
         private void DrawControlPoints(MainWindow mainWindow, SplineCollection splineCollection)
         {
@@ -53,7 +70,7 @@ namespace DeBoorsSplines
                     Y1 = splineCollection.PointsList[i - 1].PointY,
                     X2 = splineCollection.PointsList[i].PointX,
                     Y2 = splineCollection.PointsList[i].PointY,
-                    Stroke = Brushes.LightSteelBlue,
+                    Stroke = System.Windows.Media.Brushes.LightSteelBlue,
                     StrokeThickness = 2
                 };
 
@@ -76,17 +93,43 @@ namespace DeBoorsSplines
         /// </param>
         public void DrawSpline(MainWindow mainWindow, SplineCollection splineCollection)
         {
+            int partsAmount = (int)Math.Ceiling((double)
+                splineCollection.PointsList.Count()/4);
+
+            List<System.Drawing.Color> colors = colorDialogs.SetColors(StartingColor, EndingColor, partsAmount);
+
+            int splineChecker = 1,
+                colorPicker = 0;
+
+            int pointsAmount = (int)Math.Floor((double)
+                (splineCollection.SplinePointsList.Count()-1) /
+                splineCollection.PointsList.Count())*4;
+
             for (int i = 2; i < splineCollection.SplinePointsList.Count(); i++)
             {
-                Line line = new Line
+                if ((i-1) % (pointsAmount+1) == 0)
                 {
-                    X1 = splineCollection.SplinePointsList[i - 1].PointX,
-                    Y1 = splineCollection.SplinePointsList[i - 1].PointY,
-                    X2 = splineCollection.SplinePointsList[i].PointX,
-                    Y2 = splineCollection.SplinePointsList[i].PointY,
-                    Stroke = Brushes.Black,
-                    StrokeThickness = 3
+                    if (colorPicker < colors.Count() - 1)
+                        colorPicker++;
+                    //splineChecker = 0;
+                }
+
+                SolidColorBrush solidColorBrush = new SolidColorBrush
+                {
+                    Color = System.Windows.Media.Color.FromRgb(colors[colorPicker].R, colors[colorPicker].G, colors[colorPicker].B)
                 };
+
+                    Line line = new Line
+                    {
+                        X1 = splineCollection.SplinePointsList[i - 1].PointX,
+                        Y1 = splineCollection.SplinePointsList[i - 1].PointY,
+                        X2 = splineCollection.SplinePointsList[i].PointX,
+                        Y2 = splineCollection.SplinePointsList[i].PointY,
+                        Stroke = solidColorBrush,
+                        StrokeThickness = 3
+                    };
+
+                //splineChecker++;
 
                 mainWindow.DrawingCanvas.Children.Add(line);
             }

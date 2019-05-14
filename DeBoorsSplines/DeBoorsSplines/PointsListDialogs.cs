@@ -35,7 +35,8 @@ namespace DeBoorsSplines
 
             for (int i = 0; i < splineCollection.PointsList.Count; i++)
             {
-                mainWindow.PointsListBox.Items.Add(splineCollection.PointsList[i]);
+                mainWindow.PointsListBox.Items.Add($"{i}) " 
+                    + splineCollection.PointsList[i]);
             }
 
             mainWindow.ParameterTextBox.Text = splineCollection.Parameter.ToString();

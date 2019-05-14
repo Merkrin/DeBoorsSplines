@@ -50,8 +50,8 @@ namespace DeBoorsSplines
 
             // Модуль - расстояние от начала координат к х-координате точки
             double module = splineCollection.PointsList[indexOfTheClosest].PointX;
-            
-            for(int i = 1; i < splineCollection.PointsList.Count(); i++)
+
+            for (int i = 1; i < splineCollection.PointsList.Count(); i++)
             {
                 if (splineCollection.PointsList[i].PointX < module)
                 {
@@ -66,7 +66,7 @@ namespace DeBoorsSplines
 
             for (int i = 0; i < splineCollection.PointsList.Count(); i++)
             {
-                if(i != indexOfTheClosest)
+                if (i != indexOfTheClosest)
                 {
                     splineCollection.PointsList[i].PointX -= changeOfX;
                 }

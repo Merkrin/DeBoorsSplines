@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -99,6 +100,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ColorLibrary\ColorLibrary.csproj">
+      <Project>{b85c1183-c168-4666-b9a1-82d1e151da30}</Project>
+      <Name>ColorLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PointsLibrary\PointsLibrary.csproj">
       <Project>{b856c781-8b16-4344-a8c9-5a07c8ffeb20}</Project>
       <Name>PointsLibrary</Name>

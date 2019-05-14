@@ -11,11 +11,13 @@
     <Grid x:Name="MainGrid" Margin="10,10,10,10" HorizontalAlignment="Left"
           Width="780">
         <Menu x:Name="MenuStrip" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0">
-            <MenuItem Header="File" >
-                <MenuItem x:Name="OpenMenuItem" Header="Open" Click="OpenMenuItem_Click"/>
+            <MenuItem Header="Файл" >
+                <MenuItem x:Name="OpenMenuItem" Header="Открыть" Click="OpenMenuItem_Click"/>
                 <MenuItem Header="Сохранить как..."/>
                 <MenuItem Header="Сохранить"/>
             </MenuItem>
+            <MenuItem x:Name="InfoMenuItem" Header="Справка"/>
+            <MenuItem x:Name="ExitMenuItem" Header="Выход"/>
         </Menu>
         <Grid x:Name="SecondaryGrid" HorizontalAlignment="Left" Margin="0,25,0,0">
             <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0"
@@ -32,23 +34,26 @@
                     HorizontalAlignment="Left" Margin="125,26,0,0"
                     VerticalAlignment="Top" Width="100" Click="AddPointButton_Click"/>
                 <ListBox x:Name="PointsListBox" HorizontalAlignment="Left"
-                         Height="160" Margin="10,205,0,0"
+                         Height="108" Margin="10,257,0,0"
                          VerticalAlignment="Top" Width="215">
                     <TextBlock FontWeight="Bold" TextDecorations="Underline"
                                Text="Список контрольных точек"/>
                 </ListBox>
                 <TextBox x:Name="ParameterTextBox" HorizontalAlignment="Left"
-                         Height="23" Margin="230,224,0,0" TextWrapping="Wrap"
-                         Text="t" VerticalAlignment="Top" Width="120"/>
+                         Height="23" Margin="237,288,0,0" TextWrapping="Wrap"
+                         Text="0,03" VerticalAlignment="Top" Width="120" KeyDown="ParameterTextBox_KeyDown"/>
                 <Label x:Name="ParameterLabel" Content="Значение параметра:"
                        HorizontalAlignment="Left"
-                       Margin="225,202,0,0" VerticalAlignment="Top"
+                       Margin="230,257,0,0" VerticalAlignment="Top"
                        FontWeight="Bold"/>
-                <StackPanel x:Name="ClickModePanel" HorizontalAlignment="Left" Height="79" 
+                <StackPanel x:Name="ClickModePanel" HorizontalAlignment="Left" Height="92" 
                             Margin="0,54,0,0" VerticalAlignment="Top" Width="365">
                     <Label Content="Действие по нажатию на рабочую поверхность"/>
                     <RadioButton x:Name="AddPointRadioButton"
                                  Content="Добавить опорную точку"
+                                 GroupName="ClickModeGroup"/>
+                    <RadioButton x:Name="DeletePointRadioButton"
+                                 Content="Удалить опорню точку"
                                  GroupName="ClickModeGroup"/>
                     <RadioButton x:Name="RelocatePointRadioButton" 
                                  Content="Переместить опорную точку"
@@ -57,6 +62,21 @@
                                  Content="Переместить сплайн"
                                  GroupName="ClickModeGroup" IsChecked="True"/>
                 </StackPanel>
+                <TextBox x:Name="StartingColorTextBox"
+                         HorizontalAlignment="Left"
+                         Height="23"
+                         Margin="0,172,0,0"
+                         TextWrapping="Wrap" Text="#000000" VerticalAlignment="Top" Width="120" KeyDown="StartingColorTextBox_KeyDown"/>
+                <TextBox x:Name="EndingColorTextBox"
+                         HorizontalAlignment="Left" Height="23" Margin="0,221,0,0" TextWrapping="Wrap" Text="#bebebe" VerticalAlignment="Top" Width="120"/>
+                <Rectangle Fill="#000000" HorizontalAlignment="Left" Height="23" Margin="125,172,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
+                <Rectangle Fill="#bebebe" HorizontalAlignment="Left" Height="23" Margin="125,221,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
+                <Label x:Name="label" Content="Начальный цвет (HEX)" 
+                       HorizontalAlignment="Left" Margin="0,146,0,0"
+                       VerticalAlignment="Top" Width="365"/>
+                <Label x:Name="label1" Content="Конечный цвет (HEX)"
+                       HorizontalAlignment="Left" Margin="0,195,0,0"
+                       VerticalAlignment="Top" Width="365"/>
             </Grid>
         </Grid>
     </Grid>

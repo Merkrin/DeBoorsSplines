@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PointsLibrary;
 using SplineMathsLibrary;
+using ColorLibrary;
 
 namespace DeBoorsSplines
 {
@@ -31,6 +32,7 @@ namespace DeBoorsSplines
         private double OldCoordinateX { set; get; }
         private double OldCoordinateY { set; get; }
         private bool mouseClicked = false;
+        
 
         public MainWindow()
         {
@@ -147,33 +149,28 @@ namespace DeBoorsSplines
             }
         }
 
-        //private void DrawingCanvas_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    if (e.LeftButton == MouseButtonState.Pressed)
-        //    {
-        //        double xChanges = OldCoordinateX - e.GetPosition(DrawingCanvas).X,
-        //            yChanges = OldCoordinateY - e.GetPosition(DrawingCanvas).Y;
+        private void ParameterTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                if(double.TryParse(ParameterTextBox.Text, out double t) && t > 0)
+                {
+                    splineCollection.Parameter = t;
+                }
+                else
+                {
+                    openSaveDialogs.ShowErrorMessage("Введённый параметр " +
+                        "не является положительным числом!");
+                }
+            }
+        }
 
-        //        for(int i = 0; i < DrawingCanvas.Children.Count; i++)
-        //        {
-        //            if(DrawingCanvas.Children[i] is Line)
-        //            {
-        //                Line line = DrawingCanvas.Children[i] as Line;
-        //                line.X1 -= xChanges;
-        //                line.X2 -= xChanges;
-        //                line.Y1 -= yChanges;
-        //                line.Y2 -= yChanges;
-        //                DrawingCanvas.Children[i] = line;
-        //            }
-        //            else if(DrawingCanvas.Children[i] is Ellipse)
-        //            {
-        //                Ellipse ellipse = DrawingCanvas.Children[i] as Ellipse;
-        //                Canvas.SetLeft(ellipse, Canvas.GetLeft(ellipse) - xChanges);
-        //                Canvas.SetTop(ellipse, Canvas.GetTop(ellipse) - yChanges);
-        //                DrawingCanvas.Children[i] = ellipse;
-        //            }
-        //        }
-        //    }
-        //}
+        private void StartingColorTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                //TODO
+            }
+        }
     }
 }

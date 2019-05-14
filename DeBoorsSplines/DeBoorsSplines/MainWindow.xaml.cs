@@ -24,11 +24,11 @@ namespace DeBoorsSplines
     public partial class MainWindow : Window
     {
         private FileParser fileParser = new FileParser();
-        private OpenSaveDialogs openSaveDialogs = new OpenSaveDialogs();
+        private OpenSaveDialogs openSaveDialogs;
         private SplineCollection splineCollection = new SplineCollection();
         private KnotsClass knotsClass = new KnotsClass();
         private SplineMaker splineMaker = new SplineMaker();
-        private DrawingClass drawingClass = new DrawingClass();
+        private DrawingClass drawingClass;
         private double OldCoordinateX { set; get; }
         private double OldCoordinateY { set; get; }
         private bool mouseClicked = false;
@@ -37,6 +37,9 @@ namespace DeBoorsSplines
         public MainWindow()
         {
             InitializeComponent();
+
+            drawingClass = new DrawingClass(this, splineCollection);
+            openSaveDialogs = new OpenSaveDialogs(this, drawingClass);
 
             DeBoorsSplinesAppWindow.MinHeight = 
                 SystemParameters.PrimaryScreenHeight / 3 * 2;
@@ -73,17 +76,17 @@ namespace DeBoorsSplines
         {
             knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
             splineMaker.SetSplineCurve(splineCollection.PointsList.Count(), splineCollection);
-            drawingClass.DrawSpline(this, splineCollection);
+            drawingClass.DrawSpline();
         }
 
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
             DrawingCanvas.Children.Clear();
-            openSaveDialogs.OpenFile(this, fileParser, splineCollection);
+            openSaveDialogs.OpenFile(fileParser, splineCollection);
             
             if(openSaveDialogs.OnPointsRenewer != null)
             {
-                openSaveDialogs.OnPointsRenewer?.Invoke(this, splineCollection);
+                openSaveDialogs.OnPointsRenewer?.Invoke();
                 MakeSpline();
             }
         }
@@ -105,12 +108,12 @@ namespace DeBoorsSplines
 
                 splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
 
-                drawingClass.DrawControlLines(this, splineCollection);
+                drawingClass.DrawControlLines();
 
                 if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
                 {
-                    DrawingClass drawingClass = new DrawingClass();
-                    drawingClass.DrawControlLines(this, splineCollection);
+                    //DrawingClass drawingClass = new DrawingClass();
+                    drawingClass.DrawControlLines();
                     // TODO
                     splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
                     MakeSpline();

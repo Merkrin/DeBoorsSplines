@@ -20,8 +20,14 @@ namespace DeBoorsSplines
         public string StartingColor { set; get; }
         public string EndingColor { set; get; }
 
-        public DrawingClass()
+        private MainWindow mainWindow { set; get; }
+        private SplineCollection splineCollection { set; get; }
+
+        public DrawingClass(MainWindow mainWindow, SplineCollection splineCollection)
         {
+            this.mainWindow = mainWindow;
+            this.splineCollection = splineCollection;
+
             StartingColor = "#000000";
             EndingColor = "#bebebe";
         }
@@ -32,7 +38,7 @@ namespace DeBoorsSplines
             Color = System.Windows.Media.Color.FromRgb(254, 88, 92)
         };
 
-        private void DrawControlPoints(MainWindow mainWindow, SplineCollection splineCollection)
+        private void DrawControlPoints()
         {
             for (int i = 0; i < splineCollection.PointsList.Count(); i++)
             {
@@ -60,7 +66,7 @@ namespace DeBoorsSplines
         /// Объект класса-контейнера SplineCollection с информацией об элементах
         /// сплайна.
         /// </param>
-        public void DrawControlLines(MainWindow mainWindow, SplineCollection splineCollection)
+        public void DrawControlLines()
         {
             for (int i = 1; i < splineCollection.PointsList.Count(); i++)
             {
@@ -77,7 +83,7 @@ namespace DeBoorsSplines
                 mainWindow.DrawingCanvas.Children.Add(line);
             }
 
-            DrawControlPoints(mainWindow, splineCollection);
+            DrawControlPoints();
         }
 
         /// <summary>
@@ -91,27 +97,29 @@ namespace DeBoorsSplines
         /// Объект класса-контейнера SplineCollection с информацией об элементах
         /// сплайна.
         /// </param>
-        public void DrawSpline(MainWindow mainWindow, SplineCollection splineCollection)
+        public void DrawSpline()
         {
             int partsAmount = (int)Math.Ceiling((double)
                 splineCollection.PointsList.Count()/4);
 
             List<System.Drawing.Color> colors = colorDialogs.SetColors(StartingColor, EndingColor, partsAmount);
 
-            int splineChecker = 1,
-                colorPicker = 0;
+            int colorPicker = 0,
+                cnt = 0;
 
-            int pointsAmount = (int)Math.Floor((double)
-                (splineCollection.SplinePointsList.Count()-1) /
-                splineCollection.PointsList.Count())*4;
+            int pointsAmount = (int)Math.Ceiling((splineCollection.SplinePointsList.Count() - 1) / (splineCollection.PointsList.Count() / 4.0));
+
+            //int pointsAmount = (int)Math.Floor((double)
+            //    (splineCollection.SplinePointsList.Count()-1) /
+            //    splineCollection.PointsList.Count())*4;
 
             for (int i = 2; i < splineCollection.SplinePointsList.Count(); i++)
             {
-                if ((i-1) % (pointsAmount+1) == 0)
+                if (/*(i-1) % (pointsAmount) == 0*/ cnt >= pointsAmount - 1 && colorPicker + 1 < colors.Count())
                 {
-                    if (colorPicker < colors.Count() - 1)
-                        colorPicker++;
-                    //splineChecker = 0;
+                    //if (colorPicker < colors.Count() - 1)
+                    colorPicker++;
+                    cnt = 0;
                 }
 
                 SolidColorBrush solidColorBrush = new SolidColorBrush
@@ -129,9 +137,9 @@ namespace DeBoorsSplines
                         StrokeThickness = 3
                     };
 
-                //splineChecker++;
-
                 mainWindow.DrawingCanvas.Children.Add(line);
+
+                cnt++;
             }
         }
     }

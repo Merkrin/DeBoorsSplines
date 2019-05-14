@@ -17,7 +17,7 @@ namespace DeBoorsSplines
     /// Объект класса-контейнера SplineCollection с информацией об элементах
     /// сплайна.
     /// </param>
-    public delegate void OnPointsRenewed(MainWindow mainWindow, SplineCollection splineCollection);
+    public delegate void OnPointsRenewed();
 
     /// <summary>
     /// Класс взаимодействия с диалоговыми окнами.
@@ -26,11 +26,19 @@ namespace DeBoorsSplines
     {
         private static PointsListDialogs pointsListDialogs = new PointsListDialogs();
         public OnPointsRenewed OnPointsRenewer;
-        private static DrawingClass drawingClass = new DrawingClass();
-        private static ScaleClass scaleClass = new ScaleClass();
+        //private static DrawingClass drawingClass = new DrawingClass();
         public OpenFileDialog openFileDialog;
 
         private string Path { set; get; }
+
+        private MainWindow mainWindow { set; get; }
+        private DrawingClass drawingClass { set; get; }
+
+        public OpenSaveDialogs (MainWindow mainWindow, DrawingClass drawingClass)
+        {
+            this.mainWindow = mainWindow;
+            this.drawingClass = drawingClass;
+        }
 
         /// <summary>
         /// Метод взаимодействия с диалоговым окном открытия файла. Открывается
@@ -46,7 +54,7 @@ namespace DeBoorsSplines
         /// Объект класса-контейнера SplineCollection с информацией об элементах
         /// сплайна.
         /// </param>
-        public void OpenFile(MainWindow mainWindow, FileParser fileParser, SplineCollection splineCollection)
+        public void OpenFile(FileParser fileParser, SplineCollection splineCollection)
         {
             openFileDialog = new OpenFileDialog
             {

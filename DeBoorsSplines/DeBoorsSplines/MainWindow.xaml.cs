@@ -111,7 +111,7 @@ namespace DeBoorsSplines
                 }
 
                 splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
-                pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() +" "+ e.GetPosition(DrawingCanvas).Y.ToString());
+                pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() +","+ e.GetPosition(DrawingCanvas).Y.ToString());
 
                 //splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
 
@@ -214,6 +214,22 @@ namespace DeBoorsSplines
         private void DeletePointButton_Click(object sender, RoutedEventArgs e)
         {
             pointsListDialogs.DeletePoint();
+            DrawingCanvas.Children.Clear();
+
+            if (splineCollection.PointsList.Count() >= 4)
+            {
+                drawingClass.DrawControlLines();
+                MakeSpline();
+            }
+        }
+
+        private void EditPointButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(EditPointTextBox.Text))
+            {
+                pointsListDialogs.EditPoint(EditPointTextBox.Text);
+            }
+
             DrawingCanvas.Children.Clear();
 
             if (splineCollection.PointsList.Count() >= 4)

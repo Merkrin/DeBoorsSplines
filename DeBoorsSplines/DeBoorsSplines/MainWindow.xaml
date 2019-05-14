@@ -84,9 +84,9 @@
                          Text="4" VerticalAlignment="Top" Width="58"/>
                 <Button x:Name="GenerationButton" Content="Сгенерировать сплайн" HorizontalAlignment="Left" Margin="237,134,0,0" VerticalAlignment="Top" Width="136"/>
                 <Label Content="Генерация случайного сплайна" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
-                <Button x:Name="EditPointButton" Content="Изменить точку" HorizontalAlignment="Left" Margin="237,257,0,0" VerticalAlignment="Top" Width="95"/>
+                <Button x:Name="EditPointButton" Content="Изменить точку" HorizontalAlignment="Left" Margin="237,257,0,0" VerticalAlignment="Top" Width="95" Click="EditPointButton_Click"/>
                 <Button x:Name="DeletePointButton" Content="Удалить точку" HorizontalAlignment="Left" Margin="237,284,0,0" VerticalAlignment="Top" Width="95" Click="DeletePointButton_Click"/>
-                <TextBox x:Name="ChangePointTextBox" HorizontalAlignment="Left"
+                <TextBox x:Name="EditPointTextBox" HorizontalAlignment="Left"
                          Height="23" Margin="237,229,0,0" TextWrapping="Wrap"
                          Text="x,y" VerticalAlignment="Top" Width="120"/>
             </Grid>

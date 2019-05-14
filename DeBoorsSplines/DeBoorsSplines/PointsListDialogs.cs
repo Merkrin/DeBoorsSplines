@@ -74,14 +74,37 @@ namespace DeBoorsSplines
         /// </param>
         public void AddNewPoint(string newPoint)
         {
-            string xCoordinate = newPoint.Split(' ')[0],
-                yCoordinate = newPoint.Split(' ')[1];
-
-            if (int.TryParse(xCoordinate, out int temporaryX) && temporaryX > 0 &&
-                int.TryParse(yCoordinate, out int temporaryY) && temporaryY > 0)
+            if (newPoint.Split(',').Length == 2)
             {
-                splineCollection.PointsList.Add(new PointsLibrary.Point(temporaryX, temporaryY));
-                SetPointsList();
+                string xCoordinate = newPoint.Split(',')[0],
+                    yCoordinate = newPoint.Split(',')[1];
+
+                if (int.TryParse(xCoordinate, out int temporaryX) && temporaryX > 0 &&
+                    int.TryParse(yCoordinate, out int temporaryY) && temporaryY > 0)
+                {
+                    splineCollection.PointsList.Add(new PointsLibrary.Point(temporaryX, temporaryY));
+                    SetPointsList();
+                }
+            }
+        }
+
+        public void EditPoint(string newPoint)
+        {
+            if (newPoint.Split(',').Length == 2)
+            {
+                string xCoordinate = newPoint.Split(',')[0],
+                yCoordinate = newPoint.Split(',')[1];
+
+                if (int.TryParse(xCoordinate, out int temporaryX) && temporaryX > 0 &&
+                    int.TryParse(yCoordinate, out int temporaryY) && temporaryY > 0)
+                {
+                    int index = mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem);
+
+                    splineCollection.PointsList[index - 1].PointX = temporaryX;
+                    splineCollection.PointsList[index - 1].PointY = temporaryY;
+
+                    SetPointsList();
+                }
             }
         }
     }

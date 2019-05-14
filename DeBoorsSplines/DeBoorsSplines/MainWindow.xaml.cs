@@ -29,6 +29,7 @@ namespace DeBoorsSplines
         private KnotsClass knotsClass = new KnotsClass();
         private SplineMaker splineMaker = new SplineMaker();
         private DrawingClass drawingClass;
+        private ColorDialogs colorDialogs = new ColorDialogs();
         private double OldCoordinateX { set; get; }
         private double OldCoordinateY { set; get; }
         private bool mouseClicked = false;
@@ -159,6 +160,10 @@ namespace DeBoorsSplines
                 if(double.TryParse(ParameterTextBox.Text, out double t) && t > 0)
                 {
                     splineCollection.Parameter = t;
+
+                    DrawingCanvas.Children.Clear();
+                    drawingClass.DrawControlLines();
+                    MakeSpline();
                 }
                 else
                 {
@@ -168,11 +173,32 @@ namespace DeBoorsSplines
             }
         }
 
+        private SolidColorBrush SetColor(string line)
+        {
+            string[] colors = line.Split(',');
+
+            return new SolidColorBrush
+            {
+                Color = Color.FromRgb(byte.Parse(colors[0]), byte.Parse(colors[1]), byte.Parse(colors[2]))
+            };
+        }
+
         private void StartingColorTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Enter)
             {
-                //TODO
+                if (!string.IsNullOrWhiteSpace(StartingColorTextBox.Text) && 
+                    colorDialogs.CheckColor(StartingColorTextBox.Text))
+                {
+                    drawingClass.StartingColor = StartingColorTextBox.Text;
+
+                    StartingColorExample.Fill = SetColor(StartingColorTextBox.Text);
+                }
+                else
+                {
+                    openSaveDialogs.ShowErrorMessage("Введите правильный цвет " +
+                        "в формате RGB: \"r,g,b\"!");
+                }
             }
         }
     }

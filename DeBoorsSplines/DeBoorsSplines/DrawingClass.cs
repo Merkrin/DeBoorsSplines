@@ -6,7 +6,7 @@ using System.Windows.Shapes;
 using ColorLibrary;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
+//using System.Drawing;
 
 namespace DeBoorsSplines
 {
@@ -28,14 +28,14 @@ namespace DeBoorsSplines
             this.mainWindow = mainWindow;
             this.splineCollection = splineCollection;
 
-            StartingColor = "#000000";
-            EndingColor = "#bebebe";
+            StartingColor = "0,0,0";
+            EndingColor = "190,190,190";
         }
 
         // Кисть для заливки окружностей, отмечающих на рабочем пространстве 
         // опорные точки.
         private static SolidColorBrush pointsBrush = new SolidColorBrush {
-            Color = System.Windows.Media.Color.FromRgb(254, 88, 92)
+            Color = Color.FromRgb(254, 88, 92)
         };
 
         private void DrawControlPoints()
@@ -76,7 +76,7 @@ namespace DeBoorsSplines
                     Y1 = splineCollection.PointsList[i - 1].PointY,
                     X2 = splineCollection.PointsList[i].PointX,
                     Y2 = splineCollection.PointsList[i].PointY,
-                    Stroke = System.Windows.Media.Brushes.LightSteelBlue,
+                    Stroke = Brushes.LightSteelBlue,
                     StrokeThickness = 2
                 };
 
@@ -102,7 +102,7 @@ namespace DeBoorsSplines
             int partsAmount = (int)Math.Ceiling((double)
                 splineCollection.PointsList.Count()/4);
 
-            List<System.Drawing.Color> colors = colorDialogs.SetColors(StartingColor, EndingColor, partsAmount);
+            List<Color> colors = colorDialogs.SetColors(StartingColor, EndingColor, partsAmount);
 
             int colorPicker = 0,
                 cnt = 0;
@@ -124,7 +124,7 @@ namespace DeBoorsSplines
 
                 SolidColorBrush solidColorBrush = new SolidColorBrush
                 {
-                    Color = System.Windows.Media.Color.FromRgb(colors[colorPicker].R, colors[colorPicker].G, colors[colorPicker].B)
+                    Color = colors[colorPicker]
                 };
 
                     Line line = new Line

@@ -34,26 +34,23 @@
                     HorizontalAlignment="Left" Margin="125,26,0,0"
                     VerticalAlignment="Top" Width="100" Click="AddPointButton_Click"/>
                 <ListBox x:Name="PointsListBox" HorizontalAlignment="Left"
-                         Height="108" Margin="10,257,0,0"
+                         Height="131" Margin="10,234,0,0"
                          VerticalAlignment="Top" Width="215">
                     <TextBlock FontWeight="Bold" TextDecorations="Underline"
                                Text="Список контрольных точек"/>
                 </ListBox>
                 <TextBox x:Name="ParameterTextBox" HorizontalAlignment="Left"
-                         Height="23" Margin="237,288,0,0" TextWrapping="Wrap"
+                         Height="23" Margin="252,187,0,0" TextWrapping="Wrap"
                          Text="0,03" VerticalAlignment="Top" Width="120" KeyDown="ParameterTextBox_KeyDown"/>
                 <Label x:Name="ParameterLabel" Content="Значение параметра:"
                        HorizontalAlignment="Left"
-                       Margin="230,257,0,0" VerticalAlignment="Top"
+                       Margin="237,161,0,0" VerticalAlignment="Top"
                        FontWeight="Bold"/>
-                <StackPanel x:Name="ClickModePanel" HorizontalAlignment="Left" Height="92" 
-                            Margin="0,54,0,0" VerticalAlignment="Top" Width="365">
+                <StackPanel x:Name="ClickModePanel" HorizontalAlignment="Left" Height="75" 
+                            Margin="0,54,0,0" VerticalAlignment="Top" Width="279">
                     <Label Content="Действие по нажатию на рабочую поверхность"/>
                     <RadioButton x:Name="AddPointRadioButton"
                                  Content="Добавить опорную точку"
-                                 GroupName="ClickModeGroup"/>
-                    <RadioButton x:Name="DeletePointRadioButton"
-                                 Content="Удалить опорню точку"
                                  GroupName="ClickModeGroup"/>
                     <RadioButton x:Name="RelocatePointRadioButton" 
                                  Content="Переместить опорную точку"
@@ -65,18 +62,30 @@
                 <TextBox x:Name="StartingColorTextBox"
                          HorizontalAlignment="Left"
                          Height="23"
-                         Margin="0,172,0,0"
-                         TextWrapping="Wrap" Text="#000000" VerticalAlignment="Top" Width="120" KeyDown="StartingColorTextBox_KeyDown"/>
+                         Margin="0,157,0,0"
+                         TextWrapping="Wrap" Text="0,0,0" VerticalAlignment="Top" Width="120" KeyDown="StartingColorTextBox_KeyDown"/>
                 <TextBox x:Name="EndingColorTextBox"
-                         HorizontalAlignment="Left" Height="23" Margin="0,221,0,0" TextWrapping="Wrap" Text="#bebebe" VerticalAlignment="Top" Width="120"/>
-                <Rectangle Fill="#000000" HorizontalAlignment="Left" Height="23" Margin="125,172,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
-                <Rectangle Fill="#bebebe" HorizontalAlignment="Left" Height="23" Margin="125,221,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
-                <Label x:Name="label" Content="Начальный цвет (HEX)" 
-                       HorizontalAlignment="Left" Margin="0,146,0,0"
-                       VerticalAlignment="Top" Width="365"/>
-                <Label x:Name="label1" Content="Конечный цвет (HEX)"
-                       HorizontalAlignment="Left" Margin="0,195,0,0"
-                       VerticalAlignment="Top" Width="365"/>
+                         HorizontalAlignment="Left" Height="23" Margin="0,206,0,0" TextWrapping="Wrap" Text="#190,190,190" VerticalAlignment="Top" Width="120"/>
+                <Rectangle x:Name="StartingColorExample" Fill="#000000" HorizontalAlignment="Left" Height="23" Margin="125,157,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
+                <Rectangle Fill="#bebebe" HorizontalAlignment="Left" Height="23" Margin="125,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
+                <Label Content="Начальный цвет (RGB)" 
+                       HorizontalAlignment="Left" Margin="0,131,0,0"
+                       VerticalAlignment="Top" Width="152"/>
+                <Label Content="Конечный цвет (RGB)"
+                       HorizontalAlignment="Left" Margin="0,180,0,0"
+                       VerticalAlignment="Top" Width="152"/>
+                <Button x:Name="CloseSplineButton" Content="Замкнуть сплайн" 
+                        HorizontalAlignment="Left" Margin="237,343,0,0" 
+                        VerticalAlignment="Top" Width="120"/>
+
+                <Label Content="N:" HorizontalAlignment="Left" Margin="272,103,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="NPointsTextBox" HorizontalAlignment="Left" 
+                         Height="23" Margin="299,106,0,0" TextWrapping="Wrap"
+                         Text="4" VerticalAlignment="Top" Width="58"/>
+                <Button x:Name="GenerationButton" Content="Сгенерировать сплайн" HorizontalAlignment="Left" Margin="237,134,0,0" VerticalAlignment="Top" Width="136"/>
+                <Label Content="Генерация случайного сплайна" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="EditPointButton" Content="Изменить точку" HorizontalAlignment="Left" Margin="237,257,0,0" VerticalAlignment="Top" Width="95"/>
+                <Button x:Name="DeletePointButton" Content="Удалить точку" HorizontalAlignment="Left" Margin="237,284,0,0" VerticalAlignment="Top" Width="95"/>
             </Grid>
         </Grid>
     </Grid>

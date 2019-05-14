@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Windows.Media;
+//using System.Drawing;
 
 namespace ColorLibrary
 {
@@ -38,7 +39,7 @@ namespace ColorLibrary
 
                 try
                 {
-                    colorList.Add(Color.FromArgb(a, r, g, b));
+                    colorList.Add(Color.FromArgb(Convert.ToByte(a), Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b)));
                     // Соединение цвета.
                 }
                 catch (ArgumentException)
@@ -79,7 +80,7 @@ namespace ColorLibrary
                         b = 0;
                     }
 
-                    colorList.Add(Color.FromArgb(a, r, g, b));
+                    colorList.Add(Color.FromArgb(Convert.ToByte(a), Convert.ToByte(r), Convert.ToByte(g), Convert.ToByte(b)));
                 }
                 // Если вдруг какое-то из разложений порождает исключение, оно
                 // принимает ближайшее возможное значение.

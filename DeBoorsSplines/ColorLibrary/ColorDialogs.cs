@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
+using System.Windows.Media;
+//using System.Drawing;
 
 namespace ColorLibrary
 {
@@ -13,29 +14,39 @@ namespace ColorLibrary
 
         public bool CheckColor(string line)
         {
-            return (line[0] == '#' && line.Length == 7 
-                && int.TryParse(line.Substring(1), 
-                System.Globalization.NumberStyles.HexNumber,
-                null, out int color)) || (line.Length == 6 && int.TryParse(line,
-                System.Globalization.NumberStyles.HexNumber,
-                null, out color));
+                return line[0] == '#' && line.Length == 7 &&
+                int.TryParse(line.Substring(1),
+                    System.Globalization.NumberStyles.HexNumber,
+                    null, out int color) || line.Length == 6 && int.TryParse(line,
+                    System.Globalization.NumberStyles.HexNumber,
+                    null, out color);
         }
 
         public List<Color> SetColors(string startingColor, string endingColor, int partsAmount)
         {
-            if(partsAmount < 3)
+            string[] rgbs = startingColor.Split(',');
+
+            if (partsAmount < 3)
             {
-                return new List<Color>
+                List<Color> returnedColors = new List<Color>
                 {
-                    ColorTranslator.FromHtml(startingColor),
-                    ColorTranslator.FromHtml(endingColor)
+                    Color.FromRgb(byte.Parse(rgbs[0]), byte.Parse(rgbs[1]), byte.Parse(rgbs[2]))
                 };
+
+                rgbs = endingColor.Split(',');
+
+                returnedColors.Add(Color.FromRgb(byte.Parse(rgbs[0]), byte.Parse(rgbs[1]), byte.Parse(rgbs[2])));
+
+                return returnedColors;
             }
 
             List<Color> colors = new List<Color>();
 
-            gradientColorClass.SetColorList(colors, ColorTranslator.FromHtml(startingColor),
-                    ColorTranslator.FromHtml(endingColor), partsAmount);
+            rgbs = startingColor.Split(',');
+            string[] secondRgbs = endingColor.Split(',');
+
+            gradientColorClass.SetColorList(colors, Color.FromRgb(byte.Parse(rgbs[0]), byte.Parse(rgbs[1]), byte.Parse(rgbs[2])),
+                    Color.FromRgb(byte.Parse(secondRgbs[0]), byte.Parse(secondRgbs[1]), byte.Parse(secondRgbs[2])), partsAmount);
 
             return colors;
         }

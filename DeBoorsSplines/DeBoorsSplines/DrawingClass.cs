@@ -113,19 +113,19 @@ namespace DeBoorsSplines
             //    (splineCollection.SplinePointsList.Count()-1) /
             //    splineCollection.PointsList.Count())*4;
 
-            for (int i = 2; i < splineCollection.SplinePointsList.Count(); i++)
-            {
-                if (/*(i-1) % (pointsAmount) == 0*/ cnt >= pointsAmount - 1 && colorPicker + 1 < colors.Count())
+                for (int i = 1; i < splineCollection.SplinePointsList.Count(); i++)
                 {
-                    //if (colorPicker < colors.Count() - 1)
-                    colorPicker++;
-                    cnt = 0;
-                }
+                    if (/*(i-1) % (pointsAmount) == 0*/ cnt >= pointsAmount - 1 && colorPicker + 1 < colors.Count())
+                    {
+                        //if (colorPicker < colors.Count() - 1)
+                        colorPicker++;
+                        cnt = 0;
+                    }
 
-                SolidColorBrush solidColorBrush = new SolidColorBrush
-                {
-                    Color = colors[colorPicker]
-                };
+                    SolidColorBrush solidColorBrush = new SolidColorBrush
+                    {
+                        Color = colors[colorPicker]
+                    };
 
                     Line line = new Line
                     {
@@ -137,10 +137,10 @@ namespace DeBoorsSplines
                         StrokeThickness = 3
                     };
 
-                mainWindow.DrawingCanvas.Children.Add(line);
+                    mainWindow.DrawingCanvas.Children.Add(line);
 
-                cnt++;
-            }
+                    cnt++;
+                }
         }
     }
 }

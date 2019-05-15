@@ -34,7 +34,7 @@ namespace DeBoorsSplines
         private double OldCoordinateX { set; get; }
         private double OldCoordinateY { set; get; }
         private bool mouseClicked = false;
-        
+        private Random random = new Random();
 
         public MainWindow()
         {
@@ -70,9 +70,35 @@ namespace DeBoorsSplines
 
         private void AddPointButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(AddPointTextBox.Text))
+            if (splineCollection.PointsList == null)
             {
+                splineCollection.PointsList = new List<PointsLibrary.Point>();
+            }
 
+            if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0)
+            {
+                DrawingCanvas.Children.Clear();
+
+                splineCollection.Parameter = t;
+
+                if (!string.IsNullOrWhiteSpace(AddPointTextBox.Text))
+                {
+                    pointsListDialogs.AddNewPoint(AddPointTextBox.Text);
+                }
+
+                if (ShowControlCheckBox.IsChecked == true)
+                {
+                    drawingClass.DrawControlLines();
+                }
+
+                if (splineCollection.PointsList.Count() >= 4)
+                {
+                    MakeSpline();
+                }
+            }
+            else
+            {
+                openSaveDialogs.ShowErrorMessage("Неправильный параметр!");
             }
         }
 
@@ -103,34 +129,46 @@ namespace DeBoorsSplines
 
             if (AddPointRadioButton.IsChecked == true)
             {
-                DrawingCanvas.Children.Clear();
-
                 if (splineCollection.PointsList == null)
                 {
                     splineCollection.PointsList = new List<PointsLibrary.Point>();
                 }
 
-                splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
-                pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() +","+ e.GetPosition(DrawingCanvas).Y.ToString());
-
-                //splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
-
-                drawingClass.DrawControlLines();
-
-                if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
+                if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0)
                 {
-                    //DrawingClass drawingClass = new DrawingClass();
-                    //drawingClass.DrawControlLines();
-                    // TODO
-                    
-                    MakeSpline();
+
+                    DrawingCanvas.Children.Clear();
+
+
+                    splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
+                    pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() + "," + e.GetPosition(DrawingCanvas).Y.ToString());
+
+                    //splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
+
+                    if (ShowControlCheckBox.IsChecked == true)
+                    {
+                        drawingClass.DrawControlLines();
+                    }
+
+                    if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
+                    {
+                        //DrawingClass drawingClass = new DrawingClass();
+                        //drawingClass.DrawControlLines();
+                        // TODO
+
+                        MakeSpline();
+                    }
+                }
+                else
+                {
+                    openSaveDialogs.ShowErrorMessage("Неправильный параметр!");
                 }
             }
         }
 
         private void DrawingCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (mouseClicked && RelocatePointRadioButton.IsChecked == true)
+            if (mouseClicked && RelocateSplineRadioButton.IsChecked == true)
             {
                 double xChanges = OldCoordinateX - e.GetPosition(DrawingCanvas).X,
                     yChanges = OldCoordinateY - e.GetPosition(DrawingCanvas).Y;
@@ -170,7 +208,12 @@ namespace DeBoorsSplines
                     if (splineCollection.PointsList != null && splineCollection.PointsList.Count() >= 4)
                     {
                         DrawingCanvas.Children.Clear();
-                        drawingClass.DrawControlLines();
+
+                        if (ShowControlCheckBox.IsChecked == true)
+                        {
+                            drawingClass.DrawControlLines();
+                        }
+
                         MakeSpline();
                     }
                 }
@@ -202,6 +245,8 @@ namespace DeBoorsSplines
                     drawingClass.StartingColor = StartingColorTextBox.Text;
 
                     StartingColorExample.Fill = SetColor(StartingColorTextBox.Text);
+
+                    ShowControlRadioButton_Click(sender, e);
                 }
                 else
                 {
@@ -216,9 +261,13 @@ namespace DeBoorsSplines
             pointsListDialogs.DeletePoint();
             DrawingCanvas.Children.Clear();
 
-            if (splineCollection.PointsList.Count() >= 4)
+            if (ShowControlCheckBox.IsChecked == true)
             {
                 drawingClass.DrawControlLines();
+            }
+
+            if (splineCollection.PointsList.Count() >= 4)
+            {
                 MakeSpline();
             }
         }
@@ -232,10 +281,107 @@ namespace DeBoorsSplines
 
             DrawingCanvas.Children.Clear();
 
-            if (splineCollection.PointsList.Count() >= 4)
+            if (ShowControlCheckBox.IsChecked == true)
             {
                 drawingClass.DrawControlLines();
+            }
+
+            if (splineCollection.PointsList.Count() >= 4)
+            {
                 MakeSpline();
+            }
+        }
+
+        private void AddPointTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                AddPointButton_Click(sender, e);
+            }
+        }
+
+        private void ShowControlRadioButton_Click(object sender, RoutedEventArgs e)
+        {
+            DrawingCanvas.Children.Clear();
+
+            if (splineCollection.PointsList != null)
+            {
+                if (ShowControlCheckBox.IsChecked == true)
+                {
+
+                    drawingClass.DrawControlLines();
+                }
+
+                if (splineCollection.PointsList.Count() >= 4)
+                {
+                    MakeSpline();
+                }
+            }
+        }
+
+        private void EndingColorTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (!string.IsNullOrWhiteSpace(StartingColorTextBox.Text) &&
+                    colorDialogs.CheckColor(EndingColorTextBox.Text))
+                {
+                    drawingClass.EndingColor = EndingColorTextBox.Text;
+
+                    EndingColorExample.Fill = SetColor(EndingColorTextBox.Text);
+
+                    ShowControlRadioButton_Click(sender, e);
+                }
+                else
+                {
+                    openSaveDialogs.ShowErrorMessage("Введите правильный цвет " +
+                        "в формате RGB: \"r,g,b\"!");
+                }
+            }
+        }
+
+        private void GenerationButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (splineCollection.PointsList == null)
+            {
+                splineCollection.PointsList = new List<PointsLibrary.Point>();
+            }
+
+            if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0)
+            {
+                DrawingCanvas.Children.Clear();
+
+                splineCollection.PointsList.Clear();
+
+                splineCollection.Parameter = t;
+
+                if (!string.IsNullOrWhiteSpace(NPointsTextBox.Text))
+                {
+                    if (int.TryParse(NPointsTextBox.Text, out int n) && n >= 4)
+                    {
+                        for (int i = 0; i < n; i++)
+                        {
+                            pointsListDialogs.AddNewPoint(random.Next(0, 
+                                (int)DrawingCanvas.ActualWidth).ToString()+","+
+                                (random.Next(0,
+                                (int)DrawingCanvas.Height-65)).ToString());
+                        }
+                    }
+                }
+
+                if (ShowControlCheckBox.IsChecked == true)
+                {
+                    drawingClass.DrawControlLines();
+                }
+
+                if (splineCollection.PointsList.Count() >= 4)
+                {
+                    MakeSpline();
+                }
+            }
+            else
+            {
+                openSaveDialogs.ShowErrorMessage("Неправильный параметр!");
             }
         }
     }

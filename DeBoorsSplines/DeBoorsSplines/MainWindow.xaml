@@ -29,7 +29,7 @@
                    HorizontalAlignment="Left" VerticalAlignment="Top"/>
                 <TextBox x:Name="AddPointTextBox" HorizontalAlignment="Left"
                      Height="23" Margin="0,26,0,0" TextWrapping="Wrap"
-                     Text="x,y" VerticalAlignment="Top" Width="120"/>
+                     Text="x,y" VerticalAlignment="Top" Width="120" KeyDown="AddPointTextBox_KeyDown"/>
                 <Button x:Name="AddPointButton" Content="Добавить точку"
                     HorizontalAlignment="Left" Margin="125,26,0,0"
                     VerticalAlignment="Top" Width="100" Click="AddPointButton_Click"/>
@@ -65,9 +65,9 @@
                          Margin="0,157,0,0"
                          TextWrapping="Wrap" Text="0,0,0" VerticalAlignment="Top" Width="120" KeyDown="StartingColorTextBox_KeyDown"/>
                 <TextBox x:Name="EndingColorTextBox"
-                         HorizontalAlignment="Left" Height="23" Margin="0,206,0,0" TextWrapping="Wrap" Text="190,190,190" VerticalAlignment="Top" Width="120"/>
+                         HorizontalAlignment="Left" Height="23" Margin="0,206,0,0" TextWrapping="Wrap" Text="190,190,190" VerticalAlignment="Top" Width="120" KeyDown="EndingColorTextBox_KeyDown"/>
                 <Rectangle x:Name="StartingColorExample" Fill="#000000" HorizontalAlignment="Left" Height="23" Margin="125,157,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
-                <Rectangle Fill="#bebebe" HorizontalAlignment="Left" Height="23" Margin="125,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
+                <Rectangle x:Name="EndingColorExample" Fill="#bebebe" HorizontalAlignment="Left" Height="23" Margin="125,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
                 <Label Content="Начальный цвет (RGB)" 
                        HorizontalAlignment="Left" Margin="0,131,0,0"
                        VerticalAlignment="Top" Width="152"/>
@@ -82,13 +82,17 @@
                 <TextBox x:Name="NPointsTextBox" HorizontalAlignment="Left" 
                          Height="23" Margin="299,106,0,0" TextWrapping="Wrap"
                          Text="4" VerticalAlignment="Top" Width="58"/>
-                <Button x:Name="GenerationButton" Content="Сгенерировать сплайн" HorizontalAlignment="Left" Margin="237,134,0,0" VerticalAlignment="Top" Width="136"/>
+                <Button x:Name="GenerationButton" Content="Сгенерировать сплайн" HorizontalAlignment="Left" Margin="237,134,0,0" VerticalAlignment="Top" Width="136" Click="GenerationButton_Click"/>
                 <Label Content="Генерация случайного сплайна" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
-                <Button x:Name="EditPointButton" Content="Изменить точку" HorizontalAlignment="Left" Margin="237,257,0,0" VerticalAlignment="Top" Width="95" Click="EditPointButton_Click"/>
-                <Button x:Name="DeletePointButton" Content="Удалить точку" HorizontalAlignment="Left" Margin="237,284,0,0" VerticalAlignment="Top" Width="95" Click="DeletePointButton_Click"/>
+                <Button x:Name="EditPointButton" Content="Изменить точку" HorizontalAlignment="Left" Margin="237,289,0,0" VerticalAlignment="Top" Width="95" Click="EditPointButton_Click"/>
+                <Button x:Name="DeletePointButton" Content="Удалить точку" HorizontalAlignment="Left" Margin="237,316,0,0" VerticalAlignment="Top" Width="95" Click="DeletePointButton_Click"/>
                 <TextBox x:Name="EditPointTextBox" HorizontalAlignment="Left"
-                         Height="23" Margin="237,229,0,0" TextWrapping="Wrap"
+                         Height="23" Margin="237,261,0,0" TextWrapping="Wrap"
                          Text="x,y" VerticalAlignment="Top" Width="120"/>
+                <CheckBox x:Name="ShowControlCheckBox"
+                          Content="Отображать опорную кривую"
+                          HorizontalAlignment="Left" Margin="237,240,0,0"
+                          VerticalAlignment="Top" Click="ShowControlRadioButton_Click" IsChecked="True"/>
             </Grid>
         </Grid>
     </Grid>

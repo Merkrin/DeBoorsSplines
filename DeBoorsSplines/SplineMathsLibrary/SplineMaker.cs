@@ -110,7 +110,7 @@ namespace SplineMathsLibrary
         {
             splineCollection.SplinePointsList = new List<Point>();
 
-            for (double i = 0; i <= 1; i += splineCollection.Parameter)
+            for (double i = 0; i < 1; i += splineCollection.Parameter)
             {
                 splineCollection.SplinePointsList.Add(GetPoint(controlPointsAmount, i, splineCollection));
             }

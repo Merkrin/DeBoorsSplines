@@ -69,7 +69,8 @@ namespace DeBoorsSplines
                 splineCollection.PointsList = new List<PointsLibrary.Point>();
             }
 
-            if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0)
+            if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0
+                && t < 1)
             {
                 DrawingCanvas.Children.Clear();
 
@@ -128,30 +129,13 @@ namespace DeBoorsSplines
                     splineCollection.PointsList = new List<PointsLibrary.Point>();
                 }
 
-                if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0)
+                if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0
+                    && t < 1)
                 {
-
-                    DrawingCanvas.Children.Clear();
-
-
                     splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
                     pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() + "," + e.GetPosition(DrawingCanvas).Y.ToString());
 
-                    //splineCollection.PointsList.Add(new PointsLibrary.Point(e.GetPosition(DrawingCanvas).X, e.GetPosition(DrawingCanvas).Y));
-
-                    if (ShowControlCheckBox.IsChecked == true)
-                    {
-                        drawingClass.DrawControlLines();
-                    }
-
-                    if (splineCollection.PointsList.Count() >= 4 && !string.IsNullOrWhiteSpace(ParameterTextBox.Text))
-                    {
-                        //DrawingClass drawingClass = new DrawingClass();
-                        //drawingClass.DrawControlLines();
-                        // TODO
-
-                        MakeSpline();
-                    }
+                    Visualize();
                 }
                 else
                 {
@@ -447,7 +431,7 @@ namespace DeBoorsSplines
         {
             try
             {
-                System.Windows.Forms.Help.ShowHelp(null, @"../../../Help/help.chm");
+                System.Windows.Forms.Help.ShowHelp(null, @"../../Help/help.chm");
             }catch(Exception exception)
             {
                 openSaveDialogs.ShowErrorMessage(exception.Message);

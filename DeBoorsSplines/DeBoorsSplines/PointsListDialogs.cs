@@ -52,13 +52,16 @@ namespace DeBoorsSplines
 
         public void DeletePoint()
         {
-            splineCollection.PointsList.RemoveAt(mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem) - 1);
-
-            mainWindow.PointsListBox.Items.RemoveAt(mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem));
-
-            for(int i = 1; i < mainWindow.PointsListBox.Items.Count; i++)
+            if (mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem) > 0)
             {
-                mainWindow.PointsListBox.Items[i] = $"{i - 1}) {splineCollection.PointsList[i - 1]}";
+                splineCollection.PointsList.RemoveAt(mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem) - 1);
+
+                mainWindow.PointsListBox.Items.RemoveAt(mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem));
+
+                for (int i = 1; i < mainWindow.PointsListBox.Items.Count; i++)
+                {
+                    mainWindow.PointsListBox.Items[i] = $"{i - 1}) {splineCollection.PointsList[i - 1]}";
+                }
             }
         }
 

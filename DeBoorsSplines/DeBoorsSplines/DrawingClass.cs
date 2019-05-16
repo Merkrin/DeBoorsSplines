@@ -109,15 +109,10 @@ namespace DeBoorsSplines
 
             int pointsAmount = (int)Math.Ceiling((splineCollection.SplinePointsList.Count() - 1) / (splineCollection.PointsList.Count() / 4.0));
 
-            //int pointsAmount = (int)Math.Floor((double)
-            //    (splineCollection.SplinePointsList.Count()-1) /
-            //    splineCollection.PointsList.Count())*4;
-
                 for (int i = 1; i < splineCollection.SplinePointsList.Count(); i++)
                 {
-                    if (/*(i-1) % (pointsAmount) == 0*/ cnt >= pointsAmount - 1 && colorPicker + 1 < colors.Count())
+                    if (cnt >= pointsAmount - 1 && colorPicker + 1 < colors.Count())
                     {
-                        //if (colorPicker < colors.Count() - 1)
                         colorPicker++;
                         cnt = 0;
                     }

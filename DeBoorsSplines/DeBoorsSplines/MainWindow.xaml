@@ -13,10 +13,10 @@
         <Menu x:Name="MenuStrip" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0">
             <MenuItem Header="Файл" >
                 <MenuItem x:Name="OpenMenuItem" Header="Открыть" Click="OpenMenuItem_Click"/>
-                <MenuItem Header="Сохранить как..."/>
-                <MenuItem Header="Сохранить"/>
+                <MenuItem x:Name="SaveAsMenuButton" Header="Сохранить как..." Click="SaveAsMenuItem_Click"/>
+                <MenuItem Header="Сохранить" Click="MenuItem_Click"/>
             </MenuItem>
-            <MenuItem x:Name="InfoMenuItem" Header="Справка"/>
+            <MenuItem x:Name="InfoMenuItem" Header="Справка" Click="InfoMenuItem_Click"/>
             <MenuItem x:Name="ExitMenuItem" Header="Выход"/>
         </Menu>
         <Grid x:Name="SecondaryGrid" HorizontalAlignment="Left" Margin="0,25,0,0">
@@ -74,9 +74,6 @@
                 <Label Content="Конечный цвет (RGB)"
                        HorizontalAlignment="Left" Margin="0,180,0,0"
                        VerticalAlignment="Top" Width="152"/>
-                <Button x:Name="CloseSplineButton" Content="Замкнуть сплайн" 
-                        HorizontalAlignment="Left" Margin="237,343,0,0" 
-                        VerticalAlignment="Top" Width="120" Click="CloseSplineButton_Click"/>
 
                 <Label Content="N:" HorizontalAlignment="Left" Margin="272,103,0,0" VerticalAlignment="Top"/>
                 <TextBox x:Name="NPointsTextBox" HorizontalAlignment="Left" 

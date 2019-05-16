@@ -115,42 +115,5 @@ namespace SplineMathsLibrary
                 splineCollection.SplinePointsList.Add(GetPoint(controlPointsAmount, i, splineCollection));
             }
         }
-
-        public void CloseCurve(SplineCollection splineCollection)
-        {
-            splineCollection.PointsList[splineCollection.PointsList.Count-1] = splineCollection.PointsList[0];
-            splineCollection.PointsList[splineCollection.PointsList.Count - 2] = splineCollection.PointsList[2];
-            splineCollection.PointsList[splineCollection.PointsList.Count - 3] = splineCollection.PointsList[3];
-            //splineCollection.PointsList.Add(splineCollection.PointsList[1]);
-            //splineCollection.PointsList.Add(splineCollection.PointsList[2]);
-
-            splineCollection.KnotsVector = new double[splineCollection.PointsList.Count + 4];
-
-            double step = 1d / (splineCollection.KnotsVector.Length - 1);
-
-            splineCollection.KnotsVector[0] = 0;
-
-            for (int i = 1; i < splineCollection.KnotsVector.Length - 1; i++)
-            {
-                splineCollection.KnotsVector[i] = splineCollection.KnotsVector[i - 1] + step;
-                //splineCollection.KnotsVector[i] = i / splineCollection.KnotsVector.Length;
-            }
-
-            splineCollection.KnotsVector[splineCollection.KnotsVector.Length - 1] = 1;
-
-
-
-            //splineCollection.KnotsVector = new double[splineCollection.PointsList.Count + 4 + 1 + 1];
-
-            //splineCollection.KnotsVector[0] = 0;
-            //splineCollection.KnotsVector[splineCollection.PointsList.Count + 4 + 1] = 1;
-
-            //for (int i = 1; i < splineCollection.PointsList.Count + 4 + 1 + 1; i++)
-            //{
-            //    splineCollection.KnotsVector[i] = i / (splineCollection.PointsList.Count + 4 + 1);
-            //}
-
-            
-        }
     }
 }

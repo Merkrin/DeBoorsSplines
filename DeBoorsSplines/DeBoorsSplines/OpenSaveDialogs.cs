@@ -29,15 +29,17 @@ namespace DeBoorsSplines
         //private static DrawingClass drawingClass = new DrawingClass();
         public OpenFileDialog openFileDialog;
 
-        private string Path { set; get; }
+        internal string Path { set; get; }
 
         private MainWindow mainWindow { set; get; }
         private DrawingClass drawingClass { set; get; }
+        private SplineCollection splineCollection { set; get; }
 
-        public OpenSaveDialogs (MainWindow mainWindow, DrawingClass drawingClass)
+        public OpenSaveDialogs (MainWindow mainWindow, DrawingClass drawingClass, SplineCollection splineCollection)
         {
             this.mainWindow = mainWindow;
             this.drawingClass = drawingClass;
+            this.splineCollection = splineCollection;
             pointsListDialogs = new PointsListDialogs(mainWindow);
         }
 
@@ -62,7 +64,7 @@ namespace DeBoorsSplines
             openFileDialog = new OpenFileDialog
             {
                 Filter = "Text files (*.txt)|*.txt|DeBoorsSplines" +
-                " Files (*.dbsp)|*.dbsp|All files (*.*)|*.*"
+                " files (*.dbsp)|*.dbsp|All files (*.*)|*.*"
             };
 
             if (openFileDialog.ShowDialog() == true)
@@ -72,16 +74,6 @@ namespace DeBoorsSplines
                     Path = openFileDialog.FileName;
 
                     fileParser.ReadFile(Path, splineCollection);
-
-                    //if(scaleClass.CheckScaling(mainWindow, splineCollection))
-                    //{
-                    //    scaleClass.ScaleSpline(mainWindow, splineCollection);
-
-                    //    MessageBox.Show("Для налядной визуализации опорная кривая" +
-                    //        " была отмасштабирована под размер рабочей поверхности",
-                    //        "Проведено масштабирование", MessageBoxButton.OK,
-                    //        MessageBoxImage.Information);
-                    //}
 
                     pointsListDialogs.SetPointsList();
                     OnPointsRenewer = drawingClass.DrawControlLines;
@@ -101,6 +93,58 @@ namespace DeBoorsSplines
                     OnPointsRenewer = null;
                     ShowErrorMessage(e.Message);
                 }
+            }
+        }
+
+        private void SaveFile(string path)
+        {
+            using (StreamWriter streamWriter = new StreamWriter(path))
+            {
+                int pointsAmount = splineCollection.PointsList.Count;
+
+                streamWriter.WriteLine($"{pointsAmount}:");
+
+                for (int i = 0; i < pointsAmount; i++)
+                {
+                    streamWriter.WriteLine(
+                        $"{splineCollection.PointsList[i].PointX} " +
+                        $"{splineCollection.PointsList[i].PointY}");
+                }
+
+                streamWriter.WriteLine("t:");
+
+                streamWriter.Write(splineCollection.Parameter);
+
+                MessageBox.Show("Файл успешно сохранён", "Сохранение",
+            MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        public void SaveOpenedFile()
+        {
+            try
+            {
+                SaveFile(Path);
+            }catch(IOException e)
+            {
+                ShowErrorMessage(e.Message);
+            }catch(Exception e)
+            {
+                ShowErrorMessage(e.Message);
+            }
+        }
+
+        public void SaveNewFile()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Text files (*.txt)|*.txt|DeBoorsSplines" +
+                " files (*.dbsp)|*.dbsp"
+            };
+
+            if(saveFileDialog.ShowDialog() == true)
+            {
+                SaveFile(saveFileDialog.FileName);
             }
         }
 

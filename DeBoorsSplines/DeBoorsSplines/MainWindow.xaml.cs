@@ -21,7 +21,7 @@ namespace DeBoorsSplines
         private OpenSaveDialogs openSaveDialogs;
         private SplineCollection splineCollection = new SplineCollection();
         private KnotsClass knotsClass = new KnotsClass();
-        private SplineMaker splineMaker = new SplineMaker();
+        private SplineMaker splineMaker;
         private DrawingClass drawingClass;
         private PointsListDialogs pointsListDialogs;
         private ColorDialogs colorDialogs = new ColorDialogs();
@@ -36,8 +36,11 @@ namespace DeBoorsSplines
 
             drawingClass = new DrawingClass(this, splineCollection);
             openSaveDialogs = new OpenSaveDialogs(this, drawingClass, splineCollection);
-            pointsListDialogs = new PointsListDialogs(this);
-            pointsListDialogs.splineCollection = splineCollection;
+            splineMaker = new SplineMaker(splineCollection);
+            pointsListDialogs = new PointsListDialogs(this)
+            {
+                splineCollection = splineCollection
+            };
 
             DeBoorsSplinesAppWindow.MinHeight =
                 SystemParameters.PrimaryScreenHeight / 3 * 2;
@@ -100,7 +103,7 @@ namespace DeBoorsSplines
         private void MakeSpline()
         {
             knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
-            splineMaker.SetSplineCurve(splineCollection.PointsList.Count(), splineCollection);
+            splineMaker.SetSplineCurve(splineCollection.PointsList.Count());
             drawingClass.DrawSpline();
         }
 
@@ -436,6 +439,16 @@ namespace DeBoorsSplines
             {
                 openSaveDialogs.ShowErrorMessage(exception.Message);
             }
+        }
+
+        private void NPointsTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            GenerationButton_Click(sender, e);
+        }
+
+        private void EditPointTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            EditPointButton_Click(sender, e);
         }
     }
 }

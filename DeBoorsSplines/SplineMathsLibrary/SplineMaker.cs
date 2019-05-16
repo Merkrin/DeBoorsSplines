@@ -10,9 +10,15 @@ namespace SplineMathsLibrary
     {
         // Постоянное значение степени сплайна.
         private const int degree = 3;
+        internal SplineCollection splineCollection;
+
+        public SplineMaker(SplineCollection splineCollection)
+        {
+            this.splineCollection = splineCollection;
+        }
 
         // Метод подсчёта коэффициента N_i_p
-        private double CalculateN(int controlPoint, double knot, SplineCollection splineCollection)
+        private double CalculateN(int controlPoint, double knot)
         {
             double[] N = new double[degree + 1];
             double savedNumber,
@@ -82,14 +88,14 @@ namespace SplineMathsLibrary
         }
 
         // Метод подсчёта координат точки на сплайне.
-        private Point GetPoint(int controlPointsAmount, double t, SplineCollection splineCollection)
+        private Point GetPoint(int controlPointsAmount, double t)
         {
             double x = 0,
                 y = 0;
 
             for (int i = 0; i < controlPointsAmount; i++)
             {
-                double n = CalculateN(i, t, splineCollection);
+                double n = CalculateN(i, t);
 
                 x += splineCollection.PointsList[i].PointX * n;
                 y += splineCollection.PointsList[i].PointY * n;
@@ -106,13 +112,13 @@ namespace SplineMathsLibrary
         /// Объект класса-контейнера SplineCollection с информацией об элементах
         /// сплайна.
         /// </param>
-        public void SetSplineCurve(int controlPointsAmount, SplineCollection splineCollection)
+        public void SetSplineCurve(int controlPointsAmount)
         {
             splineCollection.SplinePointsList = new List<Point>();
 
             for (double i = 0; i <= 1; i += splineCollection.Parameter)
             {
-                splineCollection.SplinePointsList.Add(GetPoint(controlPointsAmount, i, splineCollection));
+                splineCollection.SplinePointsList.Add(GetPoint(controlPointsAmount, i));
             }
         }
     }

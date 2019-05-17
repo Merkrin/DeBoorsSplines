@@ -93,6 +93,10 @@
                 <Button x:Name="DeleteAllButton" Content="Очистить"
                         HorizontalAlignment="Left"
                         Margin="290,10,0,0" VerticalAlignment="Top" Width="75" Click="DeleteAllButton_Click"/>
+                <CheckBox x:Name="ShowIndexCheckBox"
+                    Content="Отображать индексы опорных точек"
+                    HorizontalAlignment="Left" Margin="237,221,0,0"
+                    VerticalAlignment="Top" IsChecked="True" Click="ShowIndexCheckBox_Click"/>
             </Grid>
         </Grid>
     </Grid>

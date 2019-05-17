@@ -3,6 +3,8 @@ using PointsLibrary;
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DeBoorsSplines
 {
@@ -96,7 +98,7 @@ namespace DeBoorsSplines
             }
         }
 
-        private void SaveFile(string path)
+        private void SaveTextFile(string path)
         {
             using (StreamWriter streamWriter = new StreamWriter(path))
             {
@@ -120,11 +122,49 @@ namespace DeBoorsSplines
             }
         }
 
+        private void SavePicture(string path)
+        {
+            RenderTargetBitmap renderBitmap = new RenderTargetBitmap((int)
+                (mainWindow.DeBoorsSplinesAppWindow.ActualWidth / 100 * 70),
+                (int)(mainWindow.DeBoorsSplinesAppWindow.ActualHeight),
+                96d, 96d, PixelFormats.Pbgra32);
+
+            mainWindow.DrawingCanvas.Measure(new Size((int)
+                (mainWindow.DeBoorsSplinesAppWindow.ActualWidth / 100 * 70),
+                (int)(mainWindow.DeBoorsSplinesAppWindow.ActualHeight)));
+            mainWindow.DrawingCanvas.Arrange(new Rect(new Size((int)
+                (mainWindow.DeBoorsSplinesAppWindow.ActualWidth / 100 * 70),
+                (int)(mainWindow.DeBoorsSplinesAppWindow.ActualHeight))));
+
+            renderBitmap.Render(mainWindow.DrawingCanvas);
+
+            if (path.Substring(path.Length - 4) == "png")
+            {
+                PngBitmapEncoder pngBitmapEncoder = new PngBitmapEncoder();
+                pngBitmapEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+                using (FileStream file = File.Create(path))
+                {
+                    pngBitmapEncoder.Save(file);
+                }
+            }
+            else
+            {
+                JpegBitmapEncoder jpegBitmapEncoder = new JpegBitmapEncoder();
+                jpegBitmapEncoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+
+                using (FileStream file = File.Create(path))
+                {
+                    jpegBitmapEncoder.Save(file);
+                }
+            }
+        }
+
         public void SaveOpenedFile()
         {
             try
             {
-                SaveFile(Path);
+                SaveTextFile(Path);
             }catch(IOException e)
             {
                 ShowErrorMessage(e.Message);
@@ -139,12 +179,31 @@ namespace DeBoorsSplines
             SaveFileDialog saveFileDialog = new SaveFileDialog()
             {
                 Filter = "Text files (*.txt)|*.txt|DeBoorsSplines" +
-                " files (*.dbsp)|*.dbsp"
+                " files (*.dbsp)|*.dbsp|PNG image (*.png)|*.png|JPEG image (*.jpeg)|" +
+                "*.jpeg"
             };
 
             if(saveFileDialog.ShowDialog() == true)
             {
-                SaveFile(saveFileDialog.FileName);
+                try
+                {
+                    if (saveFileDialog.FilterIndex < 2)
+                    {
+                        SaveTextFile(saveFileDialog.FileName);
+                    }
+                    else
+                    {
+                        SavePicture(saveFileDialog.FileName);
+                    }
+                }
+                catch (IOException e)
+                {
+                    ShowErrorMessage(e.Message);
+                }
+                catch (Exception e)
+                {
+                    ShowErrorMessage(e.Message);
+                }
             }
         }
 

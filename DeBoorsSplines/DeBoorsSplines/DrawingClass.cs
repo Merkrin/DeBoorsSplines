@@ -56,6 +56,22 @@ namespace DeBoorsSplines
             }
         }
 
+        public void DrawIndexes()
+        {
+            for(int i = 0; i < splineCollection.PointsList.Count(); i++)
+            {
+                Label label = new Label()
+                {
+                    Content = i.ToString()
+                };
+
+                Canvas.SetLeft(label, splineCollection.PointsList[i].PointX - 20);
+                Canvas.SetTop(label, splineCollection.PointsList[i].PointY - 20);
+
+                mainWindow.DrawingCanvas.Children.Add(label);
+            }
+        }
+
         /// <summary>
         /// Метод, рисующий прямые между последовательными опорными точками.
         /// </summary>

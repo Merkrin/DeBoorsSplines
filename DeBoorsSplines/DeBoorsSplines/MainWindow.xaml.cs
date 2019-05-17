@@ -58,6 +58,7 @@ namespace DeBoorsSplines
             // Канвас во весь экран по высоте и на 70% по ширине
             int canvasWidth =
                 (int)(DeBoorsSplinesAppWindow.ActualWidth / 100 * 70);
+            DrawingCanvas.Width = canvasWidth;
             DrawingCanvas.Margin =
                 new Thickness(0, 0, MainGrid.Width - canvasWidth, 0);
 
@@ -368,7 +369,20 @@ namespace DeBoorsSplines
                     try
                     {
                         drawingClass.DrawControlLines();
-                    }catch(Exception e)
+                    }
+                    catch (Exception e)
+                    {
+                        openSaveDialogs.ShowErrorMessage(e.Message);
+                    }
+                }
+
+                if (ShowIndexCheckBox.IsChecked == true)
+                {
+                    try
+                    {
+                        drawingClass.DrawIndexes();
+                    }
+                    catch (Exception e)
                     {
                         openSaveDialogs.ShowErrorMessage(e.Message);
                     }
@@ -387,7 +401,8 @@ namespace DeBoorsSplines
                         {
                             MakeSpline();
                         }
-                    }catch(Exception e)
+                    }
+                    catch (Exception e)
                     {
                         openSaveDialogs.ShowErrorMessage(e.Message);
                     }
@@ -435,7 +450,8 @@ namespace DeBoorsSplines
             try
             {
                 System.Windows.Forms.Help.ShowHelp(null, @"../../Help/help.chm");
-            }catch(Exception exception)
+            }
+            catch (Exception exception)
             {
                 openSaveDialogs.ShowErrorMessage(exception.Message);
             }
@@ -449,6 +465,11 @@ namespace DeBoorsSplines
         private void EditPointTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             EditPointButton_Click(sender, e);
+        }
+
+        private void ShowIndexCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            Visualize();
         }
     }
 }

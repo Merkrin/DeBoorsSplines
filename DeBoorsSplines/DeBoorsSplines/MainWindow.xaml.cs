@@ -43,9 +43,9 @@ namespace DeBoorsSplines
             };
 
             DeBoorsSplinesAppWindow.MinHeight =
-                SystemParameters.PrimaryScreenHeight / 3 * 2;
+                SystemParameters.PrimaryScreenHeight;
             DeBoorsSplinesAppWindow.MinWidth =
-                SystemParameters.PrimaryScreenWidth / 3 * 2;
+                SystemParameters.PrimaryScreenWidth;
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -115,8 +115,7 @@ namespace DeBoorsSplines
 
             if (openSaveDialogs.OnPointsRenewer != null)
             {
-                openSaveDialogs.OnPointsRenewer?.Invoke();
-                MakeSpline();
+                Visualize();
             }
         }
 
@@ -174,6 +173,13 @@ namespace DeBoorsSplines
                         Canvas.SetLeft(ellipse, Canvas.GetLeft(ellipse) - xChanges);
                         Canvas.SetTop(ellipse, Canvas.GetTop(ellipse) - yChanges);
                         DrawingCanvas.Children[i] = ellipse;
+                    }
+                    else
+                    {
+                        Label label = DrawingCanvas.Children[i] as Label;
+                        Canvas.SetLeft(label, Canvas.GetLeft(label) - xChanges);
+                        Canvas.SetTop(label, Canvas.GetTop(label) - yChanges);
+                        DrawingCanvas.Children[i] = label;
                     }
                 }
 
@@ -459,7 +465,10 @@ namespace DeBoorsSplines
 
         private void NPointsTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            GenerationButton_Click(sender, e);
+            if (e.Key == Key.Enter)
+            {
+                GenerationButton_Click(sender, e);
+            }
         }
 
         private void EditPointTextBox_KeyDown(object sender, KeyEventArgs e)

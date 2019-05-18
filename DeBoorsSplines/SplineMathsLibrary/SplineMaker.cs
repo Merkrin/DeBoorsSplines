@@ -10,7 +10,7 @@ namespace SplineMathsLibrary
     {
         // Постоянное значение степени сплайна.
         private const int degree = 3;
-        internal SplineCollection splineCollection;
+        private SplineCollection splineCollection { set; get; }
 
         public SplineMaker(SplineCollection splineCollection)
         {
@@ -18,30 +18,30 @@ namespace SplineMathsLibrary
         }
 
         // Метод подсчёта коэффициента N_i_p
-        private double CalculateN(int controlPoint, double knot)
+        private double CalculateN(int controlPoint, double parameter)
         {
             double[] N = new double[degree + 1];
             double savedNumber,
                 temporaryNumber;
             int knotsAmount = splineCollection.KnotsVector.Length - 1;
 
-            if (controlPoint == 0 && knot == splineCollection.KnotsVector[0]
+            if (controlPoint == 0 && parameter == splineCollection.KnotsVector[0]
                 || controlPoint == (knotsAmount - degree - 1)
-                && knot == splineCollection.KnotsVector[knotsAmount])
+                && parameter == splineCollection.KnotsVector[knotsAmount])
             {
                 return 1;
             }
 
-            if (knot < splineCollection.KnotsVector[controlPoint]
-                || knot >= splineCollection.KnotsVector[controlPoint + degree + 1])
+            if (parameter < splineCollection.KnotsVector[controlPoint]
+                || parameter >= splineCollection.KnotsVector[controlPoint + degree + 1])
             {
                 return 0;
             }
 
             for (int i = 0; i <= degree; i++)
             {
-                if (knot >= splineCollection.KnotsVector[controlPoint + i]
-                    && knot < splineCollection.KnotsVector[controlPoint + i + 1])
+                if (parameter >= splineCollection.KnotsVector[controlPoint + i]
+                    && parameter < splineCollection.KnotsVector[controlPoint + i + 1])
                 {
                     N[i] = 1;
                 }
@@ -60,7 +60,7 @@ namespace SplineMathsLibrary
                 else
                 {
                     savedNumber =
-                        (knot - splineCollection.KnotsVector[controlPoint]) * N[0] /
+                        (parameter - splineCollection.KnotsVector[controlPoint]) * N[0] /
                         (splineCollection.KnotsVector[controlPoint + i] -
                         splineCollection.KnotsVector[controlPoint]);
                 }
@@ -78,30 +78,13 @@ namespace SplineMathsLibrary
                     else
                     {
                         temporaryNumber = N[j + 1] / (rightKnot - leftKnot);
-                        N[j] = savedNumber + (rightKnot - knot) * temporaryNumber;
-                        savedNumber = (knot - leftKnot) * temporaryNumber;
+                        N[j] = savedNumber + (rightKnot - parameter) * temporaryNumber;
+                        savedNumber = (parameter - leftKnot) * temporaryNumber;
                     }
                 }
             }
 
             return N[0];
-        }
-
-        // Метод подсчёта координат точки на сплайне.
-        private Point GetPoint(int controlPointsAmount, double t)
-        {
-            double x = 0,
-                y = 0;
-
-            for (int i = 0; i < controlPointsAmount; i++)
-            {
-                double n = CalculateN(i, t);
-
-                x += splineCollection.PointsList[i].PointX * n;
-                y += splineCollection.PointsList[i].PointY * n;
-            }
-
-            return new Point(x, y);
         }
 
         /// <summary>
@@ -118,7 +101,18 @@ namespace SplineMathsLibrary
 
             for (double i = 0; i <= 1; i += splineCollection.Parameter)
             {
-                splineCollection.SplinePointsList.Add(GetPoint(controlPointsAmount, i));
+                double x = 0,
+                y = 0;
+
+                for (int j = 0; j < controlPointsAmount; j++)
+                {
+                    double n = CalculateN(j, i);
+
+                    x += splineCollection.PointsList[j].PointX * n;
+                    y += splineCollection.PointsList[j].PointY * n;
+                }
+
+                splineCollection.SplinePointsList.Add(new Point(x, y));
             }
         }
     }

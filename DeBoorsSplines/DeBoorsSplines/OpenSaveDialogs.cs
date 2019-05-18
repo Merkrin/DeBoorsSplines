@@ -37,7 +37,8 @@ namespace DeBoorsSplines
         private DrawingClass drawingClass { set; get; }
         private SplineCollection splineCollection { set; get; }
 
-        public OpenSaveDialogs (MainWindow mainWindow, DrawingClass drawingClass, SplineCollection splineCollection)
+        public OpenSaveDialogs (MainWindow mainWindow, DrawingClass drawingClass,
+            SplineCollection splineCollection)
         {
             this.mainWindow = mainWindow;
             this.drawingClass = drawingClass;

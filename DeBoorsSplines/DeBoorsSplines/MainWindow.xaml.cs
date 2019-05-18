@@ -90,6 +90,11 @@ namespace DeBoorsSplines
                     drawingClass.DrawControlLines();
                 }
 
+                if(ShowIndexCheckBox.IsChecked == true)
+                {
+                    drawingClass.DrawIndexes();
+                }
+
                 if (splineCollection.PointsList.Count() >= 4)
                 {
                     MakeSpline();

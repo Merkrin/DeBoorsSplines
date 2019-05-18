@@ -159,6 +159,9 @@ namespace DeBoorsSplines
                     jpegBitmapEncoder.Save(file);
                 }
             }
+
+            MessageBox.Show("Файл успешно сохранён", "Сохранение",
+            MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         public void SaveOpenedFile()

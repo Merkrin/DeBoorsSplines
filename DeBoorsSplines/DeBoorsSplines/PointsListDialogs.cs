@@ -12,22 +12,20 @@ namespace DeBoorsSplines
         public SplineCollection splineCollection { set; get; }
         public MainWindow mainWindow { set; get; }
 
+        /// <summary>
+        /// Конструктор класса PointsListDialogs.
+        /// </summary>
+        /// <param name="mainWindow">
+        /// Экземпляр класса <see cref="MainWindow"/>.
+        /// </param>
         public PointsListDialogs(MainWindow mainWindow)
         {
             this.mainWindow = mainWindow;
         }
 
         /// <summary>
-        /// Метод, устанавливающий список координат, если координаты посылаются
-        /// одномоментно. То есть при загрузке координат из внешних источников.
+        /// Метод, устанавливающий список координат.
         /// </summary>
-        /// <param name="mainWindow">
-        /// Объект класса MainWindow для работы с элементами интерфейса.
-        /// </param>
-        /// <param name="splineCollection">
-        /// Объект класса-контейнера SplineCollection с информацией об элементах
-        /// сплайна.
-        /// </param>
         public void SetPointsList()
         {
             mainWindow.PointsListBox.Items.Clear();
@@ -43,13 +41,16 @@ namespace DeBoorsSplines
 
             for (int i = 0; i < splineCollection.PointsList.Count; i++)
             {
-                mainWindow.PointsListBox.Items.Add($"{i}) " 
+                mainWindow.PointsListBox.Items.Add($"{i}) "
                     + splineCollection.PointsList[i]);
             }
 
             mainWindow.ParameterTextBox.Text = splineCollection.Parameter.ToString();
         }
 
+        /// <summary>
+        /// Метод удаления опорной точки.
+        /// </summary>
         public void DeletePoint()
         {
             if (mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem) > 0)
@@ -66,8 +67,7 @@ namespace DeBoorsSplines
         }
 
         /// <summary>
-        /// Метод добавления в список опорных точек новой точки по строке вида
-        /// "x y".
+        /// Метод добавления в список опорных точек новой точки.
         /// </summary>
         /// <param name="newPoint">
         /// Строка, содержащая координаты новой опрной точки.
@@ -88,6 +88,12 @@ namespace DeBoorsSplines
             }
         }
 
+        /// <summary>
+        /// Метод изменения опорной точки.
+        /// </summary>
+        /// <param name="newPoint">
+        /// Строка, содержащая координаты новой опрной точки.
+        /// </param>
         public void EditPoint(string newPoint)
         {
             if (newPoint.Split(',').Length == 2)
@@ -100,8 +106,8 @@ namespace DeBoorsSplines
                 {
                     int index = mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem);
 
-                    splineCollection.PointsList[index - 1].PointX = temporaryX;
-                    splineCollection.PointsList[index - 1].PointY = temporaryY;
+                    splineCollection.PointsList[index].PointX = temporaryX;
+                    splineCollection.PointsList[index].PointY = temporaryY;
 
                     SetPointsList();
                 }

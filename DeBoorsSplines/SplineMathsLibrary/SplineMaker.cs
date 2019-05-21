@@ -12,12 +12,18 @@ namespace SplineMathsLibrary
         private const int degree = 3;
         private SplineCollection splineCollection { set; get; }
 
+        /// <summary>
+        /// Конструктор класса построения сплайна.
+        /// </summary>
+        /// <param name="splineCollection">
+        /// Экземпляр класса <see cref="SplineCollection"/>.
+        /// </param>
         public SplineMaker(SplineCollection splineCollection)
         {
             this.splineCollection = splineCollection;
         }
 
-        // Метод подсчёта коэффициента N_i_p
+        // Метод подсчёта коэффициента N. Алгоритм взят из книги "The NURBS Book".
         private double CalculateN(int controlPoint, double parameter)
         {
             double[] N = new double[degree + 1];
@@ -90,10 +96,8 @@ namespace SplineMathsLibrary
         /// <summary>
         /// Метод получения точек сплайна.
         /// </summary>
-        /// <param name="controlPointsAmount">Количество опорных точек.</param>
-        /// <param name="splineCollection">
-        /// Объект класса-контейнера SplineCollection с информацией об элементах
-        /// сплайна.
+        /// <param name="controlPointsAmount">
+        /// Количество опорных точек.
         /// </param>
         public void SetSplineCurve(int controlPointsAmount)
         {

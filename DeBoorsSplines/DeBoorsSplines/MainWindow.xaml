@@ -1,53 +1,113 @@
-﻿<Window x:Name="DeBoorsSplinesAppWindow" x:Class="DeBoorsSplines.MainWindow"
+﻿<Window x:Name="DeBoorsSplinesAppWindow"
+        x:Class="DeBoorsSplines.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="De Boor's Splines" Height="450" Width="800"
+        Title="De Boor's Splines" 
+        Height="450" 
+        Width="800"
         AutomationProperties.Name="De Boor's Splines"
-        SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen"
-        WindowState="Maximized" Background="#FFFFF0F0" Icon="dbsplicon.ico">
-    <Grid x:Name="MainGrid" Margin="10,10,10,10" HorizontalAlignment="Left"
+        SizeChanged="Window_SizeChanged" 
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized" 
+        Background="#FFFFF0F0" 
+        Icon="dbsplicon.ico">
+    <Grid x:Name="MainGrid" 
+          Margin="10,10,10,10" 
+          HorizontalAlignment="Left"
           Width="780">
-        <Menu x:Name="MenuStrip" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,0,0,0">
+        <Menu x:Name="MenuStrip" 
+              VerticalAlignment="Top" 
+              HorizontalAlignment="Left" 
+              Margin="0,0,0,0">
             <MenuItem Header="Файл" >
-                <MenuItem x:Name="OpenMenuItem" Header="Открыть" Click="OpenMenuItem_Click"/>
-                <MenuItem x:Name="SaveAsMenuButton" Header="Сохранить как..." Click="SaveAsMenuItem_Click"/>
-                <MenuItem Header="Сохранить" Click="MenuItem_Click"/>
+                <MenuItem x:Name="OpenMenuItem" 
+                          Header="Открыть" 
+                          Click="OpenMenuItem_Click"/>
+                <MenuItem x:Name="SaveAsMenuButton" 
+                          Header="Сохранить как..." 
+                          Click="SaveAsMenuItem_Click"/>
+                <MenuItem Header="Сохранить" 
+                          Click="MenuItem_Click"/>
             </MenuItem>
-            <MenuItem x:Name="InfoMenuItem" Header="Справка" Click="InfoMenuItem_Click"/>
-            <MenuItem x:Name="ExitMenuItem" Header="Выход"/>
+            <MenuItem x:Name="InfoMenuItem" 
+                      Header="Справка" 
+                      Click="InfoMenuItem_Click"/>
+            <MenuItem x:Name="AboutMenuItem"
+                      Header="О программе" Click="AboutMenuItem_Click"/>
+            <MenuItem x:Name="ExitMenuItem" 
+                      Header="Выход" 
+                      Click="ExitMenuItem_Click"/>
         </Menu>
-        <Grid x:Name="SecondaryGrid" HorizontalAlignment="Left" Margin="0,25,0,0">
-            <Canvas x:Name="DrawingCanvas" Height="400" Margin="0,0,390,0"
-                VerticalAlignment="Top" Background="White" MouseDown="DrawingCanvas_MouseDown" MouseUp="DrawingCanvas_MouseUp"/>
-            <Grid x:Name="ButtonsGrid" HorizontalAlignment="Left"
-              Margin="395,0,0,0" VerticalAlignment="Top" Width="375" Height="375">
+        <Grid x:Name="SecondaryGrid" 
+              HorizontalAlignment="Left" 
+              Margin="0,25,0,0">
+            <Canvas x:Name="DrawingCanvas" 
+                    Height="400" 
+                    Margin="0,0,390,0"
+                VerticalAlignment="Top" 
+                    Background="White" 
+                    MouseDown="DrawingCanvas_MouseDown" 
+                    MouseUp="DrawingCanvas_MouseUp"/>
+            <Grid x:Name="ButtonsGrid" 
+                  HorizontalAlignment="Left"
+                  Margin="395,0,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="375" 
+                  Height="375">
                 <Label x:Name="PointLabel"
-                   Content="Введите координаты новой точки как &quot;х,у&quot;:"
-                   HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                <TextBox x:Name="AddPointTextBox" HorizontalAlignment="Left"
-                     Height="23" Margin="0,26,0,0" TextWrapping="Wrap"
-                     Text="x,y" VerticalAlignment="Top" Width="120" KeyDown="AddPointTextBox_KeyDown"/>
-                <Button x:Name="AddPointButton" Content="Добавить точку"
-                    HorizontalAlignment="Left" Margin="125,26,0,0"
-                    VerticalAlignment="Top" Width="100" Click="AddPointButton_Click"/>
-                <ListBox x:Name="PointsListBox" HorizontalAlignment="Left"
-                         Height="141" Margin="10,234,0,0"
-                         VerticalAlignment="Top" Width="215">
-                    <TextBlock FontWeight="Bold" TextDecorations="Underline"
+                       Content="Введите координаты новой точки как &quot;х,у&quot;:"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top"/>
+                <TextBox x:Name="AddPointTextBox" 
+                         HorizontalAlignment="Left"
+                         Height="23" 
+                         Margin="0,26,0,0"
+                         TextWrapping="Wrap"
+                         Text="x,y" 
+                         VerticalAlignment="Top" 
+                         Width="120" 
+                         KeyDown="AddPointTextBox_KeyDown"/>
+                <Button x:Name="AddPointButton" 
+                        Content="Добавить точку"
+                        HorizontalAlignment="Left" 
+                        Margin="125,26,0,0"
+                        VerticalAlignment="Top"
+                        Width="100" 
+                        Click="AddPointButton_Click"/>
+                <ListBox x:Name="PointsListBox" 
+                         HorizontalAlignment="Left"
+                         Height="141" 
+                         Margin="10,234,0,0"
+                         VerticalAlignment="Top" 
+                         Width="215">
+                    <TextBlock FontWeight="Bold" 
+                               TextDecorations="Underline"
                                Text="Список контрольных точек"/>
                 </ListBox>
-                <TextBox x:Name="ParameterTextBox" HorizontalAlignment="Left"
-                         Height="23" Margin="252,187,0,0" TextWrapping="Wrap"
-                         Text="0,03" VerticalAlignment="Top" Width="120" KeyDown="ParameterTextBox_KeyDown"/>
-                <Label x:Name="ParameterLabel" Content="Значение параметра:"
+                <TextBox x:Name="ParameterTextBox" 
+                         HorizontalAlignment="Left"
+                         Height="23" 
+                         Margin="252,187,0,0" 
+                         TextWrapping="Wrap"
+                         Text="0,03" 
+                         VerticalAlignment="Top" 
+                         Width="120" 
+                         KeyDown="ParameterTextBox_KeyDown"/>
+                <Label x:Name="ParameterLabel" 
+                       Content="Значение параметра:"
                        HorizontalAlignment="Left"
-                       Margin="237,161,0,0" VerticalAlignment="Top"
+                       Margin="237,161,0,0" 
+                       VerticalAlignment="Top"
                        FontWeight="Bold"/>
-                <StackPanel x:Name="ClickModePanel" HorizontalAlignment="Left" Height="75" 
-                            Margin="0,54,0,0" VerticalAlignment="Top" Width="279">
+                <StackPanel x:Name="ClickModePanel" 
+                            HorizontalAlignment="Left" 
+                            Height="75" 
+                            Margin="0,54,0,0" 
+                            VerticalAlignment="Top" 
+                            Width="279">
                     <Label Content="Действие по нажатию на рабочую поверхность"/>
                     <RadioButton x:Name="AddPointRadioButton"
                                  Content="Добавить опорную точку"
@@ -63,40 +123,115 @@
                          HorizontalAlignment="Left"
                          Height="23"
                          Margin="0,157,0,0"
-                         TextWrapping="Wrap" Text="0,0,0" VerticalAlignment="Top" Width="120" KeyDown="StartingColorTextBox_KeyDown"/>
+                         TextWrapping="Wrap" 
+                         Text="0,0,0" 
+                         VerticalAlignment="Top" 
+                         Width="120" 
+                         KeyDown="StartingColorTextBox_KeyDown"/>
                 <TextBox x:Name="EndingColorTextBox"
-                         HorizontalAlignment="Left" Height="23" Margin="0,206,0,0" TextWrapping="Wrap" Text="190,190,190" VerticalAlignment="Top" Width="120" KeyDown="EndingColorTextBox_KeyDown"/>
-                <Rectangle x:Name="StartingColorExample" Fill="#000000" HorizontalAlignment="Left" Height="23" Margin="125,157,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
-                <Rectangle x:Name="EndingColorExample" Fill="#bebebe" HorizontalAlignment="Left" Height="23" Margin="125,206,0,0" Stroke="Black" VerticalAlignment="Top" Width="27"/>
+                         HorizontalAlignment="Left" 
+                         Height="23" 
+                         Margin="0,206,0,0" 
+                         TextWrapping="Wrap" 
+                         Text="190,190,190" 
+                         VerticalAlignment="Top" 
+                         Width="120" 
+                         KeyDown="EndingColorTextBox_KeyDown"/>
+                <Rectangle x:Name="StartingColorExample" 
+                           Fill="#000000" 
+                           HorizontalAlignment="Left" 
+                           Height="23"
+                           Margin="125,157,0,0"
+                           Stroke="Black"
+                           VerticalAlignment="Top"
+                           Width="27"/>
+                <Rectangle x:Name="EndingColorExample"
+                           Fill="#bebebe"
+                           HorizontalAlignment="Left"
+                           Height="23"
+                           Margin="125,206,0,0"
+                           Stroke="Black"
+                           VerticalAlignment="Top"
+                           Width="27"/>
                 <Label Content="Начальный цвет (RGB)" 
-                       HorizontalAlignment="Left" Margin="0,131,0,0"
-                       VerticalAlignment="Top" Width="152"/>
+                       HorizontalAlignment="Left"
+                       Margin="0,131,0,0"
+                       VerticalAlignment="Top"
+                       Width="152"/>
                 <Label Content="Конечный цвет (RGB)"
-                       HorizontalAlignment="Left" Margin="0,180,0,0"
-                       VerticalAlignment="Top" Width="152"/>
+                       HorizontalAlignment="Left"
+                       Margin="0,180,0,0"
+                       VerticalAlignment="Top"
+                       Width="152"/>
 
-                <Label Content="N:" HorizontalAlignment="Left" Margin="272,103,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="NPointsTextBox" HorizontalAlignment="Left" 
-                         Height="23" Margin="299,106,0,0" TextWrapping="Wrap"
-                         Text="4" VerticalAlignment="Top" Width="58" KeyDown="NPointsTextBox_KeyDown"/>
-                <Button x:Name="GenerationButton" Content="Сгенерировать сплайн" HorizontalAlignment="Left" Margin="237,134,0,0" VerticalAlignment="Top" Width="136" Click="GenerationButton_Click"/>
-                <Label Content="Генерация случайного сплайна" HorizontalAlignment="Left" Margin="182,80,0,0" VerticalAlignment="Top"/>
-                <Button x:Name="EditPointButton" Content="Изменить точку" HorizontalAlignment="Left" Margin="237,289,0,0" VerticalAlignment="Top" Width="95" Click="EditPointButton_Click"/>
-                <Button x:Name="DeletePointButton" Content="Удалить точку" HorizontalAlignment="Left" Margin="237,316,0,0" VerticalAlignment="Top" Width="95" Click="DeletePointButton_Click"/>
-                <TextBox x:Name="EditPointTextBox" HorizontalAlignment="Left"
-                         Height="23" Margin="237,261,0,0" TextWrapping="Wrap"
-                         Text="x,y" VerticalAlignment="Top" Width="120" KeyDown="EditPointTextBox_KeyDown"/>
+                <Label Content="N:"
+                       HorizontalAlignment="Left"
+                       Margin="272,103,0,0"
+                       VerticalAlignment="Top"/>
+                <TextBox x:Name="NPointsTextBox"
+                         HorizontalAlignment="Left" 
+                         Height="23"
+                         Margin="299,106,0,0"
+                         TextWrapping="Wrap"
+                         Text="4"
+                         VerticalAlignment="Top"
+                         Width="58"
+                         KeyDown="NPointsTextBox_KeyDown"/>
+                <Button x:Name="GenerationButton"
+                        Content="Сгенерировать сплайн"
+                        HorizontalAlignment="Left"
+                        Margin="237,134,0,0"
+                        VerticalAlignment="Top"
+                        Width="136"
+                        Click="GenerationButton_Click"/>
+                <Label Content="Генерация случайного сплайна"
+                       HorizontalAlignment="Left"
+                       Margin="182,80,0,0"
+                       VerticalAlignment="Top"/>
+                <Button x:Name="EditPointButton"
+                        Content="Изменить точку"
+                        HorizontalAlignment="Left"
+                        Margin="237,289,0,0"
+                        VerticalAlignment="Top"
+                        Width="95" 
+                        Click="EditPointButton_Click"/>
+                <Button x:Name="DeletePointButton"
+                        Content="Удалить точку"
+                        HorizontalAlignment="Left"
+                        Margin="237,316,0,0"
+                        VerticalAlignment="Top"
+                        Width="95"
+                        Click="DeletePointButton_Click"/>
+                <TextBox x:Name="EditPointTextBox"
+                         HorizontalAlignment="Left"
+                         Height="23"
+                         Margin="237,261,0,0"
+                         TextWrapping="Wrap"
+                         Text="x,y"
+                         VerticalAlignment="Top"
+                         Width="120"
+                         KeyDown="EditPointTextBox_KeyDown"/>
                 <CheckBox x:Name="ShowControlCheckBox"
                           Content="Отображать опорную кривую"
-                          HorizontalAlignment="Left" Margin="237,240,0,0"
-                          VerticalAlignment="Top" Click="ShowControlRadioButton_Click" IsChecked="True"/>
-                <Button x:Name="DeleteAllButton" Content="Очистить"
+                          HorizontalAlignment="Left"
+                          Margin="237,240,0,0"
+                          VerticalAlignment="Top"
+                          Click="ShowControlRadioButton_Click"
+                          IsChecked="True"/>
+                <Button x:Name="DeleteAllButton" 
+                        Content="Очистить"
                         HorizontalAlignment="Left"
-                        Margin="290,10,0,0" VerticalAlignment="Top" Width="75" Click="DeleteAllButton_Click"/>
+                        Margin="290,10,0,0"
+                        VerticalAlignment="Top"
+                        Width="75" 
+                        Click="DeleteAllButton_Click"/>
                 <CheckBox x:Name="ShowIndexCheckBox"
-                    Content="Отображать индексы опорных точек"
-                    HorizontalAlignment="Left" Margin="237,221,0,0"
-                    VerticalAlignment="Top" IsChecked="True" Click="ShowIndexCheckBox_Click"/>
+                          Content="Отображать индексы"
+                          HorizontalAlignment="Left"
+                          Margin="237,221,0,0"
+                          VerticalAlignment="Top" 
+                          IsChecked="True" 
+                          Click="ShowIndexCheckBox_Click"/>
             </Grid>
         </Grid>
     </Grid>

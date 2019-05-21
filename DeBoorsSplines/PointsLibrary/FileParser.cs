@@ -6,10 +6,23 @@ using System.Text.RegularExpressions;
 
 namespace PointsLibrary
 {
+    /// <summary>
+    /// Класс чтения файла, загружаемого пользователем.
+    /// </summary>
     public class FileParser
     {
+        // Строка, хранящая разрешённые для появления в текстовом файле символы.
         private const string allowedCharacters = "1234567890 ";
 
+        /// <summary>
+        /// Метод чтения входного файла.
+        /// </summary>
+        /// <param name="filePath">
+        /// Строка, содержащая путь, по которому хранится файл.
+        /// </param>
+        /// <param name="splineCollection">
+        /// Экземпляр класса <see cref="SplineCollection"/>.
+        /// </param>
         public void ReadFile(string filePath, SplineCollection splineCollection)
         {
             splineCollection.PointsList = new List<Point>();
@@ -25,10 +38,12 @@ namespace PointsLibrary
 
                 if (!Regex.IsMatch(line, "^[0-9]+:$"))
                 {
-                    throw new FileException("Файл должен начинаться якорем \"N:\"!");
+                    throw new FileException("Файл должен начинаться якорем" +
+                        " \"N:\"!");
                 }
 
-                int coordinatesAmount = int.Parse(line.Substring(0, line.IndexOf(':')));
+                int coordinatesAmount = int.Parse(line.Substring(0,
+                    line.IndexOf(':')));
 
                 if (coordinatesAmount < 4)
                 {
@@ -51,21 +66,26 @@ namespace PointsLibrary
                             {
                                 try
                                 {
-                                    splineCollection.PointsList.Add(new Point(int.Parse(xCoordinate), int.Parse(yCoordinate)));
+                                    splineCollection.PointsList.Add(new Point(
+                                        int.Parse(xCoordinate),
+                                        int.Parse(yCoordinate)));
                                 }
                                 catch (OutOfMemoryException)
                                 {
-                                    throw new FileException("Too many coordinates!");
+                                    throw new FileException("Слишком много" +
+                                        " координат!");
                                 }
                             }
                             else
                             {
-                                throw new FileException(i + 1 + "-ая пара координат некорректна!");
+                                throw new FileException(i + 1 + "-ая пара" +
+                                    " координат некорректна!");
                             }
                         }
                         else
                         {
-                            throw new FileException(i + 2 + "-ая строка некорректна!");
+                            throw new FileException(i + 2 + "-ая " +
+                                "строка некорректна!");
                         }
                     }
                 }
@@ -90,15 +110,17 @@ namespace PointsLibrary
             }
         }
 
+        // Метод проверки строки на соответствие правилу.
         private bool CheckLine(string line)
         {
             return line.All(c => allowedCharacters.Contains(c)) &&
                 line.Split(' ').Length == 2;
         }
 
+        // Метод проверки координат.
         public bool CheckCoordinates(string x, string y)
         {
-            return int.TryParse(x, out int temporary) && temporary > 0 
+            return int.TryParse(x, out int temporary) && temporary > 0
                 && int.TryParse(y, out temporary) && temporary > 0;
         }
     }

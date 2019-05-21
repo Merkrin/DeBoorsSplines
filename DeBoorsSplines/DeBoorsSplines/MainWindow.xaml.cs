@@ -25,11 +25,20 @@ namespace DeBoorsSplines
         private DrawingClass drawingClass;
         private PointsListDialogs pointsListDialogs;
         private ColorDialogs colorDialogs = new ColorDialogs();
+
+        // Х-координата нажатия на экран.
         private double OldCoordinateX { set; get; }
+        // У-координата нажатия на экран.
         private double OldCoordinateY { set; get; }
+
+        // Флаг нажатия на рабочую поверхность
         private bool mouseClicked = false;
+
         private Random random = new Random();
 
+        /// <summary>
+        /// Конструктор класса MainWindow.
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
@@ -42,12 +51,14 @@ namespace DeBoorsSplines
                 splineCollection = splineCollection
             };
 
+            // Установка минимальных размеров окна - размер монитора.
             DeBoorsSplinesAppWindow.MinHeight =
                 SystemParameters.PrimaryScreenHeight;
             DeBoorsSplinesAppWindow.MinWidth =
                 SystemParameters.PrimaryScreenWidth;
         }
 
+        // Обработчик изменения размера экрана пользователем.
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             MainGrid.Height = ButtonsGrid.Height = DrawingCanvas.Height
@@ -55,7 +66,7 @@ namespace DeBoorsSplines
 
             MainGrid.Width = DeBoorsSplinesAppWindow.ActualWidth;
 
-            // Канвас во весь экран по высоте и на 70% по ширине
+            // Рабочая поверхность на 70% окна по ширине.
             int canvasWidth =
                 (int)(DeBoorsSplinesAppWindow.ActualWidth / 100 * 70);
             DrawingCanvas.Width = canvasWidth;
@@ -66,6 +77,7 @@ namespace DeBoorsSplines
             ButtonsGrid.Margin = new Thickness(canvasWidth + 5, 0, 0, 0);
         }
 
+        // Обработчик нажатия на кнопку добавления опорной точки.
         private void AddPointButton_Click(object sender, RoutedEventArgs e)
         {
             if (splineCollection.PointsList == null)
@@ -90,7 +102,7 @@ namespace DeBoorsSplines
                     drawingClass.DrawControlLines();
                 }
 
-                if(ShowIndexCheckBox.IsChecked == true)
+                if (ShowIndexCheckBox.IsChecked == true)
                 {
                     drawingClass.DrawIndexes();
                 }
@@ -106,6 +118,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Метод создания сплайна по имеющимся данным.
         private void MakeSpline()
         {
             knotsClass.CalculateKnotsVektor(splineCollection.PointsList.Count(), splineCollection);
@@ -113,6 +126,7 @@ namespace DeBoorsSplines
             drawingClass.DrawSpline();
         }
 
+        // Обработчик нажатия на элемент меню «Открыть».
         private void OpenMenuItem_Click(object sender, RoutedEventArgs e)
         {
             DrawingCanvas.Children.Clear();
@@ -124,6 +138,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия на рабочую поверхность.
         private void DrawingCanvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             OldCoordinateX = e.GetPosition(DrawingCanvas).X;
@@ -152,6 +167,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик отпускания кнопки муши над рабочей поверхностью.
         private void DrawingCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             double xPosition = e.GetPosition(DrawingCanvas).X,
@@ -231,6 +247,7 @@ namespace DeBoorsSplines
             mouseClicked = false;
         }
 
+        // Обработчик нажатия клавиши ввода в окне ввода параметра.
         private void ParameterTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -248,6 +265,8 @@ namespace DeBoorsSplines
             }
         }
 
+        // Метод, возвращающий кисть для заливки окна с примером выбранного
+        // цвета.
         private SolidColorBrush SetColor(string line)
         {
             string[] colors = line.Split(',');
@@ -258,6 +277,7 @@ namespace DeBoorsSplines
             };
         }
 
+        // Обработчик нажатия клавиши ввода в окне ввода начального цвета.
         private void StartingColorTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -279,16 +299,22 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия на кнопку удаления выбранной опорной точки.
         private void DeletePointButton_Click(object sender, RoutedEventArgs e)
         {
-            pointsListDialogs.DeletePoint();
+            if (PointsListBox.SelectedIndex != -1)
+            {
+                pointsListDialogs.DeletePoint();
+            }
 
             Visualize();
         }
 
+        // Обработчик нажатия на кнопку изменения выделенной точки.
         private void EditPointButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(EditPointTextBox.Text))
+            if (!string.IsNullOrWhiteSpace(EditPointTextBox.Text) &&
+                PointsListBox.SelectedIndex != -1)
             {
                 pointsListDialogs.EditPoint(EditPointTextBox.Text);
             }
@@ -296,6 +322,7 @@ namespace DeBoorsSplines
             Visualize();
         }
 
+        // Обработчик нажатия на клавишу ввода в окне ввода новой точки.
         private void AddPointTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -304,11 +331,13 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик изменения положения переключателя показа опорной кривой.
         private void ShowControlRadioButton_Click(object sender, RoutedEventArgs e)
         {
             Visualize();
         }
 
+        // Обработчик нажатия клавиши ввода в окне ввода конечного цвета.
         private void EndingColorTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -330,6 +359,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия на кнопку генерации случайного сплайна.
         private void GenerationButton_Click(object sender, RoutedEventArgs e)
         {
             if (splineCollection.PointsList == null)
@@ -340,16 +370,14 @@ namespace DeBoorsSplines
             if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0
                 && t < 1)
             {
-                DrawingCanvas.Children.Clear();
-
-                splineCollection.PointsList.Clear();
-
-                splineCollection.Parameter = t;
-
                 if (!string.IsNullOrWhiteSpace(NPointsTextBox.Text))
                 {
                     if (int.TryParse(NPointsTextBox.Text, out int n) && n >= 4)
                     {
+                        splineCollection.PointsList.Clear();
+
+                        splineCollection.Parameter = t;
+
                         for (int i = 0; i < n; i++)
                         {
                             pointsListDialogs.AddNewPoint(random.Next(0,
@@ -357,10 +385,10 @@ namespace DeBoorsSplines
                                 random.Next(0,
                                 (int)DrawingCanvas.Height - 65).ToString());
                         }
+
+                        Visualize();
                     }
                 }
-
-                Visualize();
             }
             else
             {
@@ -368,6 +396,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Метод визуализации полученного сплайна.
         private void Visualize()
         {
             DrawingCanvas.Children.Clear();
@@ -421,6 +450,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия на кнопку очистки рабочей поверхности.
         private void DeleteAllButton_Click(object sender, RoutedEventArgs e)
         {
             splineCollection.PointsList = null;
@@ -440,6 +470,7 @@ namespace DeBoorsSplines
             Visualize();
         }
 
+        // Обработчик нажатия на элемент меню «Сохранить».
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (openSaveDialogs.Path != null)
@@ -448,6 +479,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия на элемент меню «Сохранить как».
         private void SaveAsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             if (splineCollection.PointsList != null)
@@ -456,6 +488,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия на элемент меню «Справка».
         private void InfoMenuItem_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -468,6 +501,8 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия клавиши ввода в окне ввода количества точек для
+        // случайной генерации сплайна.
         private void NPointsTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -476,14 +511,31 @@ namespace DeBoorsSplines
             }
         }
 
+        // Обработчик нажатия клавиши ввода в окне изменения опорной точки.
         private void EditPointTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             EditPointButton_Click(sender, e);
         }
 
+        // Обработчик изменения положения переключателя отображения индексов
+        // опорных точек.
         private void ShowIndexCheckBox_Click(object sender, RoutedEventArgs e)
         {
             Visualize();
+        }
+
+        // Обработчик нажатия на элемент меню "Выйти".
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        // Обработчик ажатия на элемент меню "О программе".
+        private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Курсовая работа 2018-2019 уч. г.\n" +
+                "Барчук И.А., БПИ181", "О программе",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

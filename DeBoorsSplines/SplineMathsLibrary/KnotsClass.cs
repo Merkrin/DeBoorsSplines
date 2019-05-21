@@ -17,7 +17,9 @@ namespace SplineMathsLibrary
         /// получают значения такие, что knot_(i+1) - knot_i = const для i \in
         /// (<see cref="splineOrder"/>;knotsAmount-<see cref="splineOrder"/>).
         /// </summary>
-        /// <param name="controlPointsAmount">Количество опорных точек.</param>
+        /// <param name="controlPointsAmount">
+        /// Количество опорных точек.
+        /// </param>
         /// <param name="splineCollection">
         /// Объект класса-контейнера SplineCollection с информацией об элементах
         /// сплайна.

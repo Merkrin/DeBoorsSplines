@@ -12,13 +12,6 @@ namespace DeBoorsSplines
     /// Делегат, содержащий методы, вызываемые сразу после обновления
     /// опорных точек в соответствующем списке.
     /// </summary>
-    /// <param name="mainWindow">
-    /// Объект класса MainWindow для работы с элементами интерфейса.
-    /// </param>
-    /// <param name="splineCollection">
-    /// Объект класса-контейнера SplineCollection с информацией об элементах
-    /// сплайна.
-    /// </param>
     public delegate void OnPointsRenewed();
 
     /// <summary>
@@ -28,16 +21,28 @@ namespace DeBoorsSplines
     {
         private static PointsListDialogs pointsListDialogs;
         public OnPointsRenewed OnPointsRenewer;
-        //private static DrawingClass drawingClass = new DrawingClass();
         public OpenFileDialog openFileDialog;
 
+        // Путь открытого файла.
         internal string Path { set; get; }
 
         private MainWindow mainWindow { set; get; }
         private DrawingClass drawingClass { set; get; }
         private SplineCollection splineCollection { set; get; }
 
-        public OpenSaveDialogs (MainWindow mainWindow, DrawingClass drawingClass,
+        /// <summary>
+        /// Конструктор класса взаимодействия с диалоговыми окнами.
+        /// </summary>
+        /// <param name="mainWindow">
+        /// Экземпляр класса <see cref="MainWindow"/>.
+        /// </param>
+        /// <param name="drawingClass">
+        /// Экземпляр класса <see cref="DrawingClass"/>.
+        /// </param>
+        /// <param name="splineCollection">
+        /// Экземпляр класса <see cref="SplineCollection"/>.
+        /// </param>
+        public OpenSaveDialogs(MainWindow mainWindow, DrawingClass drawingClass,
             SplineCollection splineCollection)
         {
             this.mainWindow = mainWindow;
@@ -50,17 +55,15 @@ namespace DeBoorsSplines
         /// Метод взаимодействия с диалоговым окном открытия файла. Открывается
         /// файл ".txt" или ".dbsp".
         /// </summary>
-        /// <param name="mainWindow">
-        /// Объект класса MainWindow для работы с элементами интерфейса.
-        /// </param>
         /// <param name="fileParser">
-        /// Объект класса чтения файла.
+        /// Экземпляр класса <see cref="FileParser"/>.
         /// </param>
         /// <param name="splineCollection">
-        /// Объект класса-контейнера SplineCollection с информацией об элементах
+        /// Экземпляр класса <see cref="SplineCollection"/>.
         /// сплайна.
         /// </param>
-        public void OpenFile(FileParser fileParser, SplineCollection splineCollection)
+        public void OpenFile(FileParser fileParser,
+            SplineCollection splineCollection)
         {
             pointsListDialogs.splineCollection = splineCollection;
 
@@ -99,6 +102,7 @@ namespace DeBoorsSplines
             }
         }
 
+        // Метод сохранения текстового файла.
         private void SaveTextFile(string path)
         {
             using (StreamWriter streamWriter = new StreamWriter(path))
@@ -119,10 +123,11 @@ namespace DeBoorsSplines
                 streamWriter.Write(splineCollection.Parameter);
 
                 MessageBox.Show("Файл успешно сохранён", "Сохранение",
-            MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
+        // Метод сохранения изображения.
         private void SavePicture(string path)
         {
             RenderTargetBitmap renderBitmap = new RenderTargetBitmap((int)
@@ -161,23 +166,31 @@ namespace DeBoorsSplines
             }
 
             MessageBox.Show("Файл успешно сохранён", "Сохранение",
-            MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        /// <summary>
+        /// Метод сохранения уже открытого файла.
+        /// </summary>
         public void SaveOpenedFile()
         {
             try
             {
                 SaveTextFile(Path);
-            }catch(IOException e)
+            }
+            catch (IOException e)
             {
                 ShowErrorMessage(e.Message);
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
                 ShowErrorMessage(e.Message);
             }
         }
 
+        /// <summary>
+        /// Метод исполнения функции «Сохранить как».
+        /// </summary>
         public void SaveNewFile()
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog()
@@ -187,7 +200,7 @@ namespace DeBoorsSplines
                 "*.jpeg"
             };
 
-            if(saveFileDialog.ShowDialog() == true)
+            if (saveFileDialog.ShowDialog() == true)
             {
                 try
                 {

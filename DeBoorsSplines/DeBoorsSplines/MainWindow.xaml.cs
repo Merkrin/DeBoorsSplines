@@ -132,10 +132,7 @@ namespace DeBoorsSplines
             DrawingCanvas.Children.Clear();
             openSaveDialogs.OpenFile(fileParser, splineCollection);
 
-            if (openSaveDialogs.OnPointsRenewer != null)
-            {
-                Visualize();
-            }
+            Visualize();
         }
 
         // Обработчик нажатия на рабочую поверхность.
@@ -171,9 +168,9 @@ namespace DeBoorsSplines
         private void DrawingCanvas_MouseUp(object sender, MouseButtonEventArgs e)
         {
             double xPosition = e.GetPosition(DrawingCanvas).X,
-                    yPosition = e.GetPosition(DrawingCanvas).Y,
-                    xChanges = OldCoordinateX - xPosition,
-                    yChanges = OldCoordinateY - yPosition;
+                    yPosition = e.GetPosition(DrawingCanvas).Y;
+                    int xChanges = (int)(OldCoordinateX - xPosition),
+                    yChanges = (int)(OldCoordinateY - yPosition);
 
             if (mouseClicked && RelocateSplineRadioButton.IsChecked == true)
             {

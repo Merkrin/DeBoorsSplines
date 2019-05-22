@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PointsLibrary
@@ -12,7 +13,7 @@ namespace PointsLibrary
     public class FileParser
     {
         // Строка, хранящая разрешённые для появления в текстовом файле символы.
-        private const string allowedCharacters = "1234567890 ";
+        private const string allowedCharacters = "1234567890- ";
 
         /// <summary>
         /// Метод чтения входного файла.
@@ -27,7 +28,7 @@ namespace PointsLibrary
         {
             splineCollection.PointsList = new List<Point>();
 
-            using (StreamReader streamReader = new StreamReader(filePath))
+            using (StreamReader streamReader = new StreamReader(new FileStream(filePath, FileMode.Open), Encoding.Default))
             {
                 string line = streamReader.ReadLine();
 
@@ -120,8 +121,8 @@ namespace PointsLibrary
         // Метод проверки координат.
         public bool CheckCoordinates(string x, string y)
         {
-            return int.TryParse(x, out int temporary) && temporary > 0
-                && int.TryParse(y, out temporary) && temporary > 0;
+            return int.TryParse(x, out int temporary)
+                && int.TryParse(y, out temporary);
         }
     }
 }

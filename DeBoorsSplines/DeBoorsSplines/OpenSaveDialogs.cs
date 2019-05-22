@@ -2,6 +2,8 @@
 using PointsLibrary;
 using System;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -22,6 +24,7 @@ namespace DeBoorsSplines
         private static PointsListDialogs pointsListDialogs;
         public OnPointsRenewed OnPointsRenewer;
         public OpenFileDialog openFileDialog;
+        public SplineCollection TemporarySplineCollection;
 
         // Путь открытого файла.
         internal string Path { set; get; }
@@ -79,10 +82,10 @@ namespace DeBoorsSplines
                 {
                     Path = openFileDialog.FileName;
 
-                    fileParser.ReadFile(Path, splineCollection);
+                        fileParser.ReadFile(Path, splineCollection);
 
-                    pointsListDialogs.SetPointsList();
-                    OnPointsRenewer = drawingClass.DrawControlLines;
+                        pointsListDialogs.SetPointsList();
+                        OnPointsRenewer = drawingClass.DrawControlLines;
                 }
                 catch (FileException e)
                 {
@@ -105,26 +108,28 @@ namespace DeBoorsSplines
         // Метод сохранения текстового файла.
         private void SaveTextFile(string path)
         {
-            using (StreamWriter streamWriter = new StreamWriter(path))
-            {
-                int pointsAmount = splineCollection.PointsList.Count;
-
-                streamWriter.WriteLine($"{pointsAmount}:");
-
-                for (int i = 0; i < pointsAmount; i++)
+                using (StreamWriter streamWriter = new StreamWriter(new FileStream(path,
+                    FileMode.Create),
+                    Encoding.Default))
                 {
-                    streamWriter.WriteLine(
-                        $"{splineCollection.PointsList[i].PointX} " +
-                        $"{splineCollection.PointsList[i].PointY}");
+                    int pointsAmount = splineCollection.PointsList.Count;
+
+                    streamWriter.WriteLine($"{pointsAmount}:");
+
+                    for (int i = 0; i < pointsAmount; i++)
+                    {
+                        streamWriter.WriteLine(
+                            $"{splineCollection.PointsList[i].PointX} " +
+                            $"{splineCollection.PointsList[i].PointY}");
+                    }
+
+                    streamWriter.WriteLine("t:");
+
+                    streamWriter.Write(splineCollection.Parameter); 
                 }
 
-                streamWriter.WriteLine("t:");
-
-                streamWriter.Write(splineCollection.Parameter);
-
                 MessageBox.Show("Файл успешно сохранён", "Сохранение",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+                        MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // Метод сохранения изображения.
@@ -204,7 +209,7 @@ namespace DeBoorsSplines
             {
                 try
                 {
-                    if (saveFileDialog.FilterIndex < 2)
+                    if (saveFileDialog.FilterIndex <= 2)
                     {
                         SaveTextFile(saveFileDialog.FileName);
                     }

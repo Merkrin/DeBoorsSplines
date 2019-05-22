@@ -79,8 +79,8 @@ namespace DeBoorsSplines
                 string xCoordinate = newPoint.Split(',')[0],
                     yCoordinate = newPoint.Split(',')[1];
 
-                if (int.TryParse(xCoordinate, out int temporaryX) && temporaryX > 0 &&
-                    int.TryParse(yCoordinate, out int temporaryY) && temporaryY > 0)
+                if (int.TryParse(xCoordinate, out int temporaryX) &&
+                    int.TryParse(yCoordinate, out int temporaryY))
                 {
                     splineCollection.PointsList.Add(new PointsLibrary.Point(temporaryX, temporaryY));
                     SetPointsList();
@@ -101,8 +101,8 @@ namespace DeBoorsSplines
                 string xCoordinate = newPoint.Split(',')[0],
                 yCoordinate = newPoint.Split(',')[1];
 
-                if (int.TryParse(xCoordinate, out int temporaryX) && temporaryX > 0 &&
-                    int.TryParse(yCoordinate, out int temporaryY) && temporaryY > 0)
+                if (int.TryParse(xCoordinate, out int temporaryX) &&
+                    int.TryParse(yCoordinate, out int temporaryY))
                 {
                     int index = mainWindow.PointsListBox.Items.IndexOf(mainWindow.PointsListBox.SelectedItem);
 

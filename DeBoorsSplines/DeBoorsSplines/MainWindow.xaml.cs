@@ -56,6 +56,13 @@ namespace DeBoorsSplines
                 SystemParameters.PrimaryScreenHeight;
             DeBoorsSplinesAppWindow.MinWidth =
                 SystemParameters.PrimaryScreenWidth;
+
+            MessageBox.Show("Не рекомендуется вводить больше 200 опорных точек.\n" +
+                "Если Вам всё же это понадобится в ходе работы, не гарантируется" +
+                " быстрая и корректная работа программы в силу ограниченных " +
+                "возможностей центрального процессора.", "Предупреждение перед" +
+                " началом работы",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         // Обработчик изменения размера экрана пользователем.

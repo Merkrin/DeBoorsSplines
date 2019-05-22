@@ -57,9 +57,9 @@ namespace DeBoorsSplines
             DeBoorsSplinesAppWindow.MinWidth =
                 SystemParameters.PrimaryScreenWidth;
 
-            MessageBox.Show("Не рекомендуется вводить больше 200 опорных точек.\n" +
+            MessageBox.Show("Не рекомендуется вводить больше 50 опорных точек.\n" +
                 "Если Вам всё же это понадобится в ходе работы, не гарантируется" +
-                " быстрая и корректная работа программы в силу ограниченных " +
+                " быстрая работа программы в силу ограниченных " +
                 "возможностей центрального процессора.", "Предупреждение перед" +
                 " началом работы",
                 MessageBoxButton.OK, MessageBoxImage.Information);
@@ -92,36 +92,50 @@ namespace DeBoorsSplines
                 splineCollection.PointsList = new List<PointsLibrary.Point>();
             }
 
-            if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0
-                && t < 1)
+            try
             {
-                DrawingCanvas.Children.Clear();
-
-                splineCollection.Parameter = t;
-
-                if (!string.IsNullOrWhiteSpace(AddPointTextBox.Text))
+                if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0
+                    && t < 1)
                 {
-                    pointsListDialogs.AddNewPoint(AddPointTextBox.Text);
+                    if (splineCollection.PointsList.Count > 199)
+                    {
+                        throw new ArgumentOutOfRangeException("Невозможно " +
+                            "гарантировать корректную работу программы. Выберите " +
+                            "меньшее количество опорных точек.");
+                    }
+
+                    DrawingCanvas.Children.Clear();
+
+                    splineCollection.Parameter = t;
+
+                    if (!string.IsNullOrWhiteSpace(AddPointTextBox.Text))
+                    {
+                        pointsListDialogs.AddNewPoint(AddPointTextBox.Text);
+                    }
+
+                    if (ShowControlCheckBox.IsChecked == true)
+                    {
+                        drawingClass.DrawControlLines();
+                    }
+
+                    if (ShowIndexCheckBox.IsChecked == true)
+                    {
+                        drawingClass.DrawIndexes();
+                    }
+
+                    if (splineCollection.PointsList.Count() >= 4)
+                    {
+                        MakeSpline();
+                    }
                 }
 
-                if (ShowControlCheckBox.IsChecked == true)
+                else
                 {
-                    drawingClass.DrawControlLines();
+                    openSaveDialogs.ShowErrorMessage("Неправильный параметр!");
                 }
-
-                if (ShowIndexCheckBox.IsChecked == true)
-                {
-                    drawingClass.DrawIndexes();
-                }
-
-                if (splineCollection.PointsList.Count() >= 4)
-                {
-                    MakeSpline();
-                }
-            }
-            else
+            }catch(ArgumentOutOfRangeException exception)
             {
-                openSaveDialogs.ShowErrorMessage("Неправильный параметр!");
+                openSaveDialogs.ShowErrorMessage(exception.Message);
             }
         }
 
@@ -155,18 +169,24 @@ namespace DeBoorsSplines
                 {
                     splineCollection.PointsList = new List<PointsLibrary.Point>();
                 }
-
-                if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0
-                    && t < 1)
+                if (splineCollection.PointsList.Count < 200)
                 {
-                    splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
-                    pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() + "," + e.GetPosition(DrawingCanvas).Y.ToString());
+                    if (double.TryParse(ParameterTextBox.Text, out double t) && t > 0
+                        && t < 1)
+                    {
+                        splineCollection.Parameter = double.Parse(ParameterTextBox.Text);
+                        pointsListDialogs.AddNewPoint(e.GetPosition(DrawingCanvas).X.ToString() + "," + e.GetPosition(DrawingCanvas).Y.ToString());
 
-                    Visualize();
+                        Visualize();
+                    }
+                    else
+                    {
+                        openSaveDialogs.ShowErrorMessage("Неправильный параметр!");
+                    }
                 }
                 else
                 {
-                    openSaveDialogs.ShowErrorMessage("Неправильный параметр!");
+                    openSaveDialogs.ShowErrorMessage("Слишком много точек!");
                 }
             }
         }
@@ -376,7 +396,8 @@ namespace DeBoorsSplines
             {
                 if (!string.IsNullOrWhiteSpace(NPointsTextBox.Text))
                 {
-                    if (int.TryParse(NPointsTextBox.Text, out int n) && n >= 4)
+                    if (int.TryParse(NPointsTextBox.Text, out int n) && n >= 4
+                        && n <= 200)
                     {
                         splineCollection.PointsList.Clear();
 
@@ -391,6 +412,11 @@ namespace DeBoorsSplines
                         }
 
                         Visualize();
+                    }
+                    else
+                    {
+                        openSaveDialogs.ShowErrorMessage("Количество точек " +
+                            "должно быть целым числом от 4 до 999");
                     }
                 }
             }

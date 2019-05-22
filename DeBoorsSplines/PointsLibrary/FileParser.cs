@@ -28,7 +28,8 @@ namespace PointsLibrary
         {
             splineCollection.PointsList = new List<Point>();
 
-            using (StreamReader streamReader = new StreamReader(new FileStream(filePath, FileMode.Open), Encoding.Default))
+            using (StreamReader streamReader = new StreamReader(new
+                FileStream(filePath, FileMode.Open), Encoding.Default))
             {
                 string line = streamReader.ReadLine();
 
@@ -46,10 +47,11 @@ namespace PointsLibrary
                 int coordinatesAmount = int.Parse(line.Substring(0,
                     line.IndexOf(':')));
 
-                if (coordinatesAmount < 4)
+                if (coordinatesAmount > 200)
                 {
-                    throw new FileException("Для построения кубического сплайна" +
-                        " требуется не менее 4 пар координат!");
+                    throw new FileException("Невозможно гарантировать корректную" +
+                        " работу программы. Выберите меньшее количество" +
+                        " опорных точек.");
                 }
 
                 for (int i = 0; i < coordinatesAmount; i++)
